@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
+// 引入全局scss文件
+import './index.scss';
 
 ReactDOM.render(<div>React - 李嘉豪</div>, document.getElementById('root'));
 
