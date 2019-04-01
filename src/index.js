@@ -1,12 +1,52 @@
+// vendor
 import React from 'react';
 import ReactDOM from 'react-dom';
-import * as serviceWorker from './serviceWorker';
-// 引入全局scss文件
+import {
+  createStore,
+  applyMiddleware,
+  compose
+} from 'redux';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+// router
+import {
+  Route,
+  Redirect,
+  Switch,
+  BrowserRouter
+} from 'react-router-dom';
+// import global scss file
 import './index.scss';
+// reducers
+import reducers from './reducer';
+// import containers
+import Register from './containers/register';
+import Login from './containers/login'
+// import components
 
-ReactDOM.render(<div>React - 李嘉豪</div>, document.getElementById('root'));
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+// import * as serviceWorker from './serviceWorker';
+
+const reduxDevtools = window.devToolsExtension ? window.devToolsExtension() : ()=>{};
+
+const store = createStore(reducers, compose(
+    applyMiddleware(thunk),
+    reduxDevtools
+  )
+);
+
+ReactDOM.render(
+  (
+    <Provider store={store}>
+      <BrowserRouter>
+        <Switch>
+          <Route path='/register' component={Register} />
+          <Login path='/login' component={Login} />
+        </Switch>
+      </BrowserRouter>
+    </Provider>
+  ),
+  document.getElementById('root')
+);
+
+// serviceWorker.unregister();

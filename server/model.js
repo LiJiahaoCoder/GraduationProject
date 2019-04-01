@@ -2,7 +2,7 @@
  * @Author: LiJiahao 
  * @Date: 2019-03-24 15:37:17 
  * @Last Modified by: LiJiahao
- * @Last Modified time: 2019-03-25 17:58:04
+ * @Last Modified time: 2019-03-31 11:56:51
  */
 /*
  * Map sql to nosql
@@ -34,6 +34,7 @@ const models = {
     'mail': {type: String, require: true},
     'phoneNumber': {type: Number, require: true},
     'creationDate': {type: Date, default: Date.now},
+    'isActive': {type: Boolean, default: false},
     // essential information for real-name authentication
     'isCertification': {type: Boolean, default: false},
     'identityNumber': {type: Number, default: -1},

@@ -2,7 +2,7 @@
  * @Author: LiJiahao 
  * @Date: 2019-03-24 15:37:06 
  * @Last Modified by: LiJiahao
- * @Last Modified time: 2019-03-25 17:58:04
+ * @Last Modified time: 2019-04-01 11:24:37
  */
 const express = require('express');
 const utils = require('utility');
@@ -24,18 +24,18 @@ Router.get('/list', function(req, res) {
 // user register
 Router.post('/register', function(req, res) {
   // console.log(req.query);
-  const {account, password, gender, mail, phoneNumber} = req.query;
-  // console.log(req.body);
-  // const {account, password, gender, mail, phoneNumber} = req.body;
+  // const {account, password, gender, mail, phoneNumber} = req.query;
+  console.log(req.body);
+  const {account, password, gender, mail, phoneNumber} = req.body;
 
   User.findOne({account: account}, function(err, doc) {
     if(doc) {
-      return res.json({msg: '已存在该用户名'});
+      return res.json({code: 1, msg: '已存在该用户名'});
     }
     const userModel = new User({account, gender, mail, phoneNumber, password: md5Password(password)});
     userModel.save(function(err, doc) {
       if(err) {
-        return res.json({msg: '后端出现了问题'});
+        return res.json({code: 1, msg: '后端出现了问题'});
       }
       const {account, _id} = doc;
       return res.json({code: 0,msg: '注册成功', data: {account, _id}});

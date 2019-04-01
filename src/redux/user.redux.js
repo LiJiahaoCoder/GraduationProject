@@ -14,13 +14,16 @@ const initState = {
 export const user = (state = initState, action) => {
   switch (action.type) {
     case REGISTER_SUCCESS:
-      return {...state, msg: '', ...action.payload};
+      return {...state, isAuth: true, msg: '',redirectTo: '/login', ...action.payload};
     default:
       return state
   }
 }
 
 function register({account, password, gender, mail, phoneNumber}) {
+  // clear space in string
+  phoneNumber = phoneNumber.replace(/\s+/g, "");
+
   return dispatch => {
     Axios.post('/user/register', {account, password, gender, mail, phoneNumber})
       .then(
@@ -44,4 +47,8 @@ function errorMsg(msg) {
   return {type: ERROR_MSG, msg: msg};
 }
 
-export { register };
+function loadData(userInfo) {
+  return {type: LOAD_DATA, payload: userInfo};
+}
+
+export { register, loadData };
