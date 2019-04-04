@@ -21,8 +21,12 @@ import './index.scss';
 import reducers from './reducer';
 // import containers
 import Register from './containers/register';
-import Login from './containers/login'
+import Login from './containers/login';
+import Refind from './containers/refind'
 // import components
+import AuthRoute from './components/authRoute';
+// config
+import './config';
 
 
 // import * as serviceWorker from './serviceWorker';
@@ -39,10 +43,14 @@ ReactDOM.render(
   (
     <Provider store={store}>
       <BrowserRouter>
-        <Switch>
-          <Route path='/register' component={Register} />
-          <Login path='/login' component={Login} />
-        </Switch>
+        <>
+          <AuthRoute />
+          <Switch>
+            <Route path='/login' component={Login} />
+            <Route path='/refind' component={Refind} />
+            <Route path='/register' component={Register} />
+          </Switch>
+        </>
       </BrowserRouter>
     </Provider>
   ),

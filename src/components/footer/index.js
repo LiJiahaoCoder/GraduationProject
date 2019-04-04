@@ -1,14 +1,15 @@
 import React from 'react';
 
-function Footer() {
+function Footer(props) {
   return (
     <div
       style={{
         textAlign: 'center',
-        color: '#ffffff',
+        color: props.fontColor ? props.fontColor : '#ffffff',
         textShadow: '0 1px 2px #999',
         fontSize: '.7rem',
-        marginTop: '6rem'
+        marginTop: '6rem',
+        backgroundColor: props.bgColor ? props.bgColor : null
       }}
     >
       <p>

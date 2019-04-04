@@ -2,7 +2,7 @@
  * @Author: LiJiahao 
  * @Date: 2019-03-24 15:37:17 
  * @Last Modified by: LiJiahao
- * @Last Modified time: 2019-03-31 11:56:51
+ * @Last Modified time: 2019-04-04 19:21:16
  */
 /*
  * Map sql to nosql
@@ -35,6 +35,7 @@ const models = {
     'phoneNumber': {type: Number, require: true},
     'creationDate': {type: Date, default: Date.now},
     'isActive': {type: Boolean, default: false},
+    'resetCode': {type: Number, default: -1},
     // essential information for real-name authentication
     'isCertification': {type: Boolean, default: false},
     'identityNumber': {type: Number, default: -1},

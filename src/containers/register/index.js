@@ -39,9 +39,14 @@ class Register extends Component {
       hasPhoneError: false
     };
 
+    this.login = this.login.bind(this);
     this.onPhoneChange = this.onPhoneChange.bind(this);
     this.onErrorClick = this.onErrorClick.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
+  }
+
+  login() {
+    this.props.history.push('/login');
   }
 
   handleChange(key, val) {
@@ -101,7 +106,7 @@ class Register extends Component {
               overflow: 'auto'
         }}
       >
-        {this.props.redirectTo ? <Redirect to={this.props.redirectTo} /> : null}
+        {this.props.isAuth ? <Redirect to='' /> : null}
         <Flex
           direction='column'
           align='center'
@@ -204,9 +209,9 @@ class Register extends Component {
             </List>
           </Flex.Item>
           <Flex.Item>
-            <div className='redirector'>
+            <div className='register-redirector'>
               已有账号？
-              <span className='login'>登录</span>
+              <span className='register-login' onClick={this.login}>登录</span>
             </div>
           </Flex.Item>
         </Flex>
