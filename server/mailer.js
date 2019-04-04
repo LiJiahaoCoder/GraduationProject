@@ -12,10 +12,10 @@ const transport = mailer.createTransport({
 
 function mailOptions(to, resetCode) {
   return {
-    from: '易',
+    from: '"易" <george.1997@qq.com>',
     to: to,
     subject: '易 - 找回密码',
-    html: '请勿告诉别人，验证码：'+resetCode
+    text: '请勿告诉别人，验证码：'+resetCode
   };
 };
 
