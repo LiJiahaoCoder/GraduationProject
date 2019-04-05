@@ -2,14 +2,27 @@
  * @Author: LiJiahao 
  * @Date: 2019-03-24 15:37:06 
  * @Last Modified by: LiJiahao
- * @Last Modified time: 2019-04-04 22:25:54
+ * @Last Modified time: 2019-04-05 19:47:55
  */
 const express = require('express');
 const utils = require('utility');
 const Router = express.Router();
 const model = require('../model');
 const User = model.getModel('user');
-const { sendMail, mailOptions} = require('../mailer');
+const mailer = require('nodemailer');
+
+// create mail transporter
+const transport = mailer.createTransport({
+  service: 'qq',
+  secureConnection: true,
+  secure: true,
+  port: 456,
+  auth: {
+    user: 'george.1997@qq.com',
+    pass: 'enpwodeuloxcdiej'
+  }
+});
+
 // define hidden item
 const _filter = {'password': 0, '__v': 0};
 
@@ -69,11 +82,13 @@ Router.post('/refind', function(req, res) {
   // create random code
   const resetCode = ('000000' + Math.floor(Math.random() * 999999)).slice(-6);
   User.findOneAndUpdate({mail: mail}, {resetCode}, function(err, doc) {
-    if(err)
+    if(!doc)
       return res.json({code: 0, msg: '该邮箱未注册'});
-    sendMail(mailOptions(mail, resetCode), function(err, response) {
+    console.log('Reset code: ' + resetCode);
+    transport.sendMail(mailOptions(mail, resetCode), function(err) {
       if(err)
         return res.json({resetCode: 1});
+      console.log('send mail success');
       return res.json({resetCode: 0});
     });
   });
@@ -95,6 +110,15 @@ Router.get('/info', function(req, res) {
 function md5Password(password) {
   const salt = 'lijiahao-graduation+a90382afa#H#41';
   return utils.md5(utils.md5(password + salt));
+}
+
+function mailOptions(to, resetCode) {
+  return {
+    from: 'george.1997@qq.com',
+    to: to,
+    subject: '易 - 找回密码',
+    text: '请勿告诉别人，验证码：' + resetCode
+  };
 }
 
 module.exports = Router;
