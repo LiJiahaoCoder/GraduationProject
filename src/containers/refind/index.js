@@ -13,20 +13,13 @@ import {
   Switch,
   Route
 } from 'react-router-dom';
-// redux
-import { connect } from 'react-redux';
-// reducer
-import { refind } from '../../redux/user.redux';
 // scss
 import './index.scss';
 // import refind.n components
 import Refind1 from './refind.1';
 import Refind2 from './refind.2';
+import Refind3 from './refind.3';
 
-@connect(
-  state => state.user,
-  {refind}
-)
 class Refind extends Component {
   render() {
     return (
@@ -34,6 +27,7 @@ class Refind extends Component {
         <Switch>
           <Route exact path='/refind' component={Refind1} />
           <Route path='/refind/step2' component={Refind2} />
+          <Route path='/refind/step3' component={Refind3} />
         </Switch>
       </>
     );

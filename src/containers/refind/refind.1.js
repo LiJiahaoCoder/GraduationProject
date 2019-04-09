@@ -14,13 +14,13 @@ import {
 // redux
 import { connect } from 'react-redux';
 // reducer
-import { refind } from '../../redux/user.redux';
+import { refindSendMail } from '../../redux/user.redux';
 // scss
 import './index.scss';
 
 @connect(
   state => state.user,
-  {refind}
+  {refindSendMail}
 )
 class Refind1 extends Component {
   constructor(props) {
@@ -53,7 +53,7 @@ class Refind1 extends Component {
   }
 
   handleRefind() {
-    this.props.refind(this.state);
+    this.props.refindSendMail(this.state);
   }
 
   render() {

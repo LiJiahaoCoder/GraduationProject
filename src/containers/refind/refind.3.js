@@ -14,30 +14,30 @@ import {
 // redux
 import { connect } from 'react-redux';
 // reducer
-import { refindEnsureCode } from '../../redux/user.redux';
+import { modifyPassword } from '../../redux/user.redux';
 // scss
 import './index.scss';
 
 @connect(
   state => state.user,
-  {refindEnsureCode}
+  {modifyPassword}
 )
-class Refind2 extends React.Component {
+class Refind3 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      code: '',
+      newPassword: '',
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.onErrorClick = this.onErrorClick.bind(this);
     this.isError = this.isError.bind(this);
     this.redirectTo = this.redirectTo.bind(this);
-    this.handleEnsureCode = this.handleEnsureCode.bind(this);
+    this.handleModifyPassword = this.handleModifyPassword.bind(this);
   }
 
   handleChange(v) {
-    this.setState({code: v});
+    this.setState({newPassword: v});
   }
 
   onErrorClick(info) {
@@ -45,35 +45,36 @@ class Refind2 extends React.Component {
   }
 
   isError() {
-    return this.state.code.length === 6;
+    return !(this.state.newPassword.length<6 || !(this.state.newPassword.indexOf(' ') === -1));
   }
 
   redirectTo(route) {
     this.props.history.push(route);
   }
 
-  handleEnsureCode() {
-    const code = this.state.code;
+  handleModifyPassword() {
+    const newPassword = this.state.newPassword;
     const mail = this.props.mail;
-    this.props.refindEnsureCode({code, mail});
+    this.props.modifyPassword({newPassword, mail});
   }
 
   render() {
     return (
       <>
-        {this.props.ensureCode ? <Redirect to='/refind/step3' /> : null}
+        {this.props.isModified ? <Redirect to='/login' /> : null}
         <div className='refind-header'>
           <div className='refind-text'>找回密码</div>
           <div className='refind-hint'>验证码将会发送至你的注册邮箱</div>
         </div>
         <List>
           <InputItem
-            placeholder='邮箱中验证码'
-            maxLength={6}
+            placeholder='新密码'
+            maxLength={16}
             error={!this.isError()}
-            onErrorClick={info => this.onErrorClick('请输入正确的验证码')}
+            onErrorClick={info => this.onErrorClick('请输入正确的密码')}
             onChange={v => this.handleChange(v)}
-            value={this.state.code}
+            value={this.state.newPassword}
+            type='password'
           />
         </List>
         <WhiteSpace />
@@ -82,9 +83,9 @@ class Refind2 extends React.Component {
         <Button
           type='primary'
           disabled={!this.isError()}
-          onClick={this.handleEnsureCode}
+          onClick={this.handleModifyPassword}
         >
-          确定
+          重置
         </Button>
         <div className='refind-redirector-container'>
           <span className='refind-register' onClick={()=>this.redirectTo('register')}>注册</span>
@@ -95,4 +96,4 @@ class Refind2 extends React.Component {
   }
 }
 
-export default Refind2;
+export default Refind3;

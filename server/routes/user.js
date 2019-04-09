@@ -2,7 +2,7 @@
  * @Author: LiJiahao 
  * @Date: 2019-03-24 15:37:06 
  * @Last Modified by: LiJiahao
- * @Last Modified time: 2019-04-05 19:47:55
+ * @Last Modified time: 2019-04-09 21:11:09
  */
 const express = require('express');
 const utils = require('utility');
@@ -91,6 +91,27 @@ Router.post('/refind', function(req, res) {
       console.log('send mail success');
       return res.json({resetCode: 0});
     });
+  });
+});
+
+Router.post('/ensurecode', function(req, res) {
+  const {mail, code} = req.body;
+  User.findOne({mail: mail}, function(err, doc) {
+    if(!doc)
+      return res.json({ensureCode: 1});
+    if(doc.resetCode === Number(code))
+      return res.json({ensureCode: 0});
+    else
+      return res.json({ensureCode: 1, msg: '验证码错误'});
+  });
+});
+
+Router.post('/modifypassword', function(req, res) {
+  const {mail, newPassword} = req.body;
+  User.findOneAndUpdate({mail: mail}, {password: newPassword}, function(err, doc){
+    if(!doc)
+      return res.json({isModified: 1, msg: '修改密码失败'});
+    return res.json({isModified: 0});
   });
 });
 

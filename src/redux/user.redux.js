@@ -2,8 +2,9 @@ import Axios from 'axios';
 import { Toast } from 'antd-mobile';
 
 const AUTH_SUCCESS = 'AUTH_SUCCESS';
-const REFIND_SUCCESS = 'REFIND_SUCCESS';
-const ERROR_MSG = 'ERROR_MSG';
+const REFIND_SEND_MAIL_SUCCESS = 'REFIND_SEND_MAIL_SUCCESS';
+const REFIND_ENSURE_CODE = 'REFIND_ENSURE_CODE';
+const MODIFY_PASSWORD = 'MODIFY_PASSWORD';
 const LOAD_DATA = 'LOAD_DATA';
 
 const initState = {
@@ -17,12 +18,14 @@ export const user = (state = initState, action) => {
   switch (action.type) {
     case AUTH_SUCCESS:
       return {...state,isAuth: true, msg: '', ...action.payload};
-    case REFIND_SUCCESS:
+    case REFIND_SEND_MAIL_SUCCESS:
       return {...state, sentReset: true, ...action.payload};
+    case REFIND_ENSURE_CODE:
+      return {...state, ensureCode: true, ...action.payload};
+    case MODIFY_PASSWORD:
+     return {...state, isModified: true, ...action.payload};
     case LOAD_DATA:
       return {...state, ...action.payload};
-    case ERROR_MSG:
-      return {...state, msg: action.msg};
     default:
       return state;
   }
@@ -30,7 +33,7 @@ export const user = (state = initState, action) => {
 
 function login({account, password}) {
   if(!account || !password)
-    return errorMsg('用户名和密码不能为空');
+    Toast.info('用户名和密码不能为空');
 
   return dispatch => {
     Axios.post('/user/login', {account, password})
@@ -39,7 +42,6 @@ function login({account, password}) {
           dispatch(authSuccess(res.data.data));
         } else {
           Toast.info(res.data.msg, 1.5);
-          dispatch(errorMsg(res.data.msg));
         }
       });
   }
@@ -57,22 +59,47 @@ function register({account, password, gender, mail, phoneNumber}) {
             dispatch(authSuccess({account, password, gender, mail, phoneNumber}));
           } else {
             Toast.info(res.data.msg, 1.5);
-            dispatch(errorMsg(res.data.msg))
           }
         }
       );
   }
 }
 
-function refind({mail}) {
+// reset/refind password
+function refindSendMail({mail}) {
   return dispatch => {
     Axios.post('/user/refind', {mail})
       .then(res => {
         if(res.status === 200 && res.data.resetCode === 0) {
-          dispatch(refindSuccess(mail));
+          dispatch(refindSendMailSuccess({mail}));
         } else {
           Toast.info(res.data.msg, 1.5);
-          dispatch(errorMsg(res.data.msg));
+        }
+      });
+  }
+}
+
+function refindEnsureCode({mail, code}) {
+  return dispatch => {
+    Axios.post('/user/ensurecode', {code, mail})
+      .then(res => {
+        if(res.status === 200 && res.data.ensureCode === 0) {
+          dispatch(refindEnsureCodeSuccess({code}));
+        } else {
+          Toast.info(res.data.msg, 1.5);
+        }
+      });
+  }
+}
+
+function modifyPassword({mail, newPassword}) {
+  return dispatch => {
+    Axios.post('/user/modifypassword', {mail, newPassword})
+      .then(res => {
+        if(res.status === 200 && res.data.isModified === 0) {
+          dispatch(modifyPasswordSuccess({mail}));
+        } else {
+          Toast.info(res.data.msg, 1.5);
         }
       });
   }
@@ -84,16 +111,20 @@ function authSuccess(obj) {
   return {type: AUTH_SUCCESS, payload: data};
 }
 
-function refindSuccess(mail) {
-  return {type: REFIND_SUCCESS, payload: mail};
+function refindSendMailSuccess(mail) {
+  return {type: REFIND_SEND_MAIL_SUCCESS, payload: mail};
 }
 
-function errorMsg(msg) {
-  return {type: ERROR_MSG, msg: msg};
+function refindEnsureCodeSuccess(code) {
+  return {type: REFIND_ENSURE_CODE, payload: code};
+}
+
+function modifyPasswordSuccess(mail) {
+  return {type: MODIFY_PASSWORD, payload: mail}
 }
 
 function loadData(userInfo) {
   return {type: LOAD_DATA, payload: userInfo};
 }
 
-export { login, register, refind, loadData };
+export { login, register, refindSendMail, refindEnsureCode, modifyPassword, loadData };
