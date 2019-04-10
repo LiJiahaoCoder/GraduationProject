@@ -1,20 +1,9 @@
 import React, { Component } from 'react';
-// antd-mobile components
-import {
-  List,
-  InputItem,
-  WhiteSpace,
-  Button,
-  Toast
-} from 'antd-mobile';
 // route
 import {
-  Redirect,
   Switch,
   Route
 } from 'react-router-dom';
-// scss
-import './index.scss';
 // import refind.n components
 import Refind1 from './refind.1';
 import Refind2 from './refind.2';

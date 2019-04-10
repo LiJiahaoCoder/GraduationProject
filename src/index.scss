@@ -1,3 +1,153 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
 body {
-  background-color: #ffffff !important;
+  background-color: #ffffff;
+}
+
+/* logo */
+.title-container {
+  padding-top: .625rem;
+  padding-bottom: 1.25rem;
+  margin-top: 3.6rem;
+  text-align: center;
+  width: 100vw;
+  background-color: #FFFFFF;
+}
+
+.title, .slogan {
+  color: #0084ff;
+}
+
+.title {
+  font-size: 4rem;
+}
+
+.slogan {
+  margin-top: .9375rem;
+  font-size: 1.375rem;
+}
+
+/* login */
+.login-register {
+  color: #175199;
+  font-size: 1rem;
+  text-align: center;
+  margin-top: 8rem;
+}
+
+.login-title-container {
+  margin-top: 0;
+  margin-bottom: 2rem;
+  background-color: #0084ff;
+}
+
+.login-title, .login-slogan {
+  color: #ffffff;
+}
+
+.login-help {
+  color: #175199;
+  font-size: 1rem;
+}
+
+.login-proc-container {
+  color: #8590a6;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.login-protocol{
+  text-decoration: underline;
+}
+
+/* register */
+.err-msg {
+  color: red;
+}
+
+.my-radio .am-radio {
+  padding: 2.5px;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.my-radio {
+  color: #666666;
+}
+
+.am-list {
+  width: 100vw;
+}
+
+.am-list-item .am-input-label {
+  color: #666666;
+}
+
+.am-button-primary {
+  width: 90vw;
+  margin-left: 5vw;
+}
+
+.register-redirector {
+  width: 100vw;
+  height: 3rem;
+  text-align: center;
+  line-height: 3rem;
+  vertical-align: middle;
+  background-color: rgb(246,246,246);
+  font-size: 1rem;
+}
+
+.register-login {
+  color: rgb(0, 132, 255);
+}
+
+/* refind */
+.refind-header {
+  padding-top: 7rem;
+  padding-left: 1rem;
+  padding-bottom: 4rem;
+}
+
+.refind-text {
+  color: #1a1a1a;
+  font-weight: 500;
+  font-size: 1.5rem;
+}
+
+.refind-hint {
+  color: #8590a6;
+  font-weight: 400;
+  font-size: .9375rem;
+  padding-top: 1rem;
+}
+
+.refind-redirector-container {
+  color: #0084ff;
+  position: relative;
+  padding-top: 2rem;
+  font-size: 1rem;
+}
+
+.refind-register {
+  position: absolute;
+  left: 1.2rem;
+}
+
+.refind-login {
+  position: absolute;
+  right: 1.2rem;
+}
+
+
+/* dashboard */
+.am-tab-bar{
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: auto;
 }

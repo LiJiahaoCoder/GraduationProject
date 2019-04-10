@@ -15,8 +15,6 @@ import {
 import { connect } from 'react-redux';
 // reducer
 import { modifyPassword } from '../../redux/user.redux';
-// scss
-import './index.scss';
 
 @connect(
   state => state.user,
@@ -85,7 +83,7 @@ class Refind3 extends React.Component {
           disabled={!this.isError()}
           onClick={this.handleModifyPassword}
         >
-          重置
+          确定
         </Button>
         <div className='refind-redirector-container'>
           <span className='refind-register' onClick={()=>this.redirectTo('register')}>注册</span>

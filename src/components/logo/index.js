@@ -1,6 +1,4 @@
 import React from 'react';
-// logo scss
-import './index.scss';
 
 function Logo(props) {
   const {type} = props;

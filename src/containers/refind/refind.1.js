@@ -15,8 +15,6 @@ import {
 import { connect } from 'react-redux';
 // reducer
 import { refindSendMail } from '../../redux/user.redux';
-// scss
-import './index.scss';
 
 @connect(
   state => state.user,
@@ -81,7 +79,7 @@ class Refind1 extends Component {
           disabled={!this.isError()}
           onClick={this.handleRefind}
         >
-          找回密码
+          发送
         </Button>
         <div className='refind-redirector-container'>
           <span className='refind-register' onClick={()=>this.redirectTo('register')}>注册</span>

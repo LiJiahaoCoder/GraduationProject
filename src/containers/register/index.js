@@ -17,8 +17,6 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 // reducer
 import { register } from '../../redux/user.redux';
-// scss
-import './index.scss';
 // container
 import Footer from '../../components/footer';
 

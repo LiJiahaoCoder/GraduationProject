@@ -25,7 +25,7 @@ export const user = (state = initState, action) => {
     case MODIFY_PASSWORD:
      return {...state, isModified: true, ...action.payload};
     case LOAD_DATA:
-      return {...state, ...action.payload};
+      return {...state,isAuth: true, ...action.payload};
     default:
       return state;
   }
