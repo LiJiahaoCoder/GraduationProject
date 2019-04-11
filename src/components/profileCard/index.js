@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 
+@withRouter
 class ProfileCard extends Component {
   constructor(props) {
     super(props);
@@ -9,7 +11,7 @@ class ProfileCard extends Component {
 
   handleClick() {
     if(this.props.user.isAuth)
-      this.props.user.history.push('/profileinfo');
+      this.props.user.history.push('/profileinfo/me');
     else
       this.props.user.history.push('/login');
   }
@@ -22,8 +24,6 @@ class ProfileCard extends Component {
     };
     return (
       <div style={{
-        position: 'relative',
-        zIndex: '1',
         height: '7rem',
         background: '#00BFFF',
         display: 'flex',
@@ -55,10 +55,19 @@ class ProfileCard extends Component {
         >
         {user.isAuth?
           (
-          <span>
+          <div>
             <span style={{verticalAlign: 'middle'}}>{user.nickname}</span>
-            <img style={{verticalAlign: 'middle'}} src={`http://localhost:8888/static/images/gender-${gender[user.gender]}.png`} alt='你是GG还是MM' />
-          </span>):
+            <img style={{height: '22px', verticalAlign: 'middle', paddingLeft: '10px'}} src={`http://localhost:8888/static/images/gender-${gender[user.gender]}.png`} alt='你是GG还是MM' />
+            <div style={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+              width: '150px',
+              paddingTop: '10px'
+            }}>{user.introduction}
+            </div>
+          </div>
+          ):
           '——————'}
         </span>
         <span

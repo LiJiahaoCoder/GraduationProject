@@ -56,7 +56,7 @@ function register({account, password, gender, mail, phoneNumber}) {
       .then(
         res => {
           if(res.status === 200 && res.data.code === 0) {
-            dispatch(authSuccess({account, password, gender, mail, phoneNumber}));
+            dispatch(authSuccess(res.data.data));
           } else {
             Toast.info(res.data.msg, 1.5);
           }
@@ -107,7 +107,8 @@ function modifyPassword({mail, newPassword}) {
 
 // action creators
 function authSuccess(obj) {
-  const {pwd, ...data} = obj;
+  const {password, ...data} = obj;
+  console.log(password, data);
   return {type: AUTH_SUCCESS, payload: data};
 }
 

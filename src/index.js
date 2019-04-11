@@ -23,9 +23,10 @@ import reducers from './reducer';
 import Register from './containers/register';
 import Login from './containers/login';
 import Refind from './containers/refind';
-import Dashboard from './components/dashboard';
+import ProfileInfo from './containers/profileInfo';
 // import components
 import AuthRoute from './components/authRoute';
+import Dashboard from './components/dashboard';
 // config
 import './config';
 
@@ -49,6 +50,7 @@ ReactDOM.render(
             <Route path='/login' component={Login} />
             <Route path='/refind' component={Refind} />
             <Route path='/register' component={Register} />
+            <Route path='/profileinfo/:useraccount' component={ProfileInfo} />
             <Route component={Dashboard} />
           </Switch>
         </>

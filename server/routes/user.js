@@ -2,7 +2,7 @@
  * @Author: LiJiahao 
  * @Date: 2019-03-24 15:37:06 
  * @Last Modified by: LiJiahao
- * @Last Modified time: 2019-04-09 21:11:09
+ * @Last Modified time: 2019-04-11 22:21:08
  */
 const express = require('express');
 const utils = require('utility');
@@ -24,7 +24,7 @@ const transport = mailer.createTransport({
 });
 
 // define hidden item
-const _filter = {'password': 0, '__v': 0};
+const _filter = {'password': 0, '__v': 0, 'resetCode': 0};
 
 // get all user information
 Router.get('/list', function(req, res) {
@@ -68,9 +68,16 @@ Router.post('/register', function(req, res) {
         if(err) {
           return res.json({code: 1, msg: '后端出现了问题'});
         }
-        const {account, _id} = doc;
+        const {_id, gender, mail, avatar, introduction, bankCard, stars, experience, nickname, account, name, isActive, isCertification, phoneNumber, identityNumber} = doc;
         res.cookie('userid', _id);
-        return res.json({code: 0,msg: '注册成功', data: {account, _id}});
+        return res.json({
+          code: 0,
+          msg: '注册成功',
+          data: {_id, gender, mail, avatar, introduction, bankCard, stars, experience, nickname, account, name, isActive, isCertification, phoneNumber, identityNumber}
+        });
+        /* const {account, _id} = doc;
+        res.cookie('userid', _id);
+        return res.json({code: 0,msg: '注册成功', data: {account, _id}}); */
       });
     });
   });
@@ -108,7 +115,7 @@ Router.post('/ensurecode', function(req, res) {
 
 Router.post('/modifypassword', function(req, res) {
   const {mail, newPassword} = req.body;
-  User.findOneAndUpdate({mail: mail}, {password: newPassword}, function(err, doc){
+  User.findOneAndUpdate({mail: mail}, {password: newPassword, resetCode: -1}, function(err, doc){
     if(!doc)
       return res.json({isModified: 1, msg: '修改密码失败'});
     return res.json({isModified: 0});

@@ -151,3 +151,12 @@ body {
   width: 100%;
   height: auto;
 }
+
+/* me */
+.me-list .am-list-extra {
+  flex-basis: initial;
+}
+
+.me-list .am-list-item {
+  min-height: 3rem;
+}

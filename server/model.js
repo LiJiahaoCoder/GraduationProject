@@ -2,7 +2,7 @@
  * @Author: LiJiahao 
  * @Date: 2019-03-24 15:37:17 
  * @Last Modified by: LiJiahao
- * @Last Modified time: 2019-04-04 19:21:16
+ * @Last Modified time: 2019-04-11 21:45:02
  */
 /*
  * Map sql to nosql
@@ -39,6 +39,7 @@ const models = {
     // essential information for real-name authentication
     'isCertification': {type: Boolean, default: false},
     'identityNumber': {type: Number, default: -1},
+    'name': {type: String, default: ''},
     'bankCard': [{'number': Number}],
     'stars': {type: Number, default: 0},  // virtual coin on plateform
     'experience': {type: Number, default: 0}, // buy/sale goods will increase experience
