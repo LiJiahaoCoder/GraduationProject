@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 @withRouter
+@connect(
+  state => state.user
+)
 class ProfileCard extends Component {
   constructor(props) {
     super(props);
@@ -10,14 +14,14 @@ class ProfileCard extends Component {
   }
 
   handleClick() {
-    if(this.props.user.isAuth)
-      this.props.user.history.push('/profileinfo/me');
+    if(this.props.isAuth)
+      this.props.history.push('/profileinfo/me');
     else
-      this.props.user.history.push('/login');
+      this.props.history.push('/login');
   }
 
   render() {
-    const user = this.props.user;
+    const user = this.props;
     const gender = {
       0: 'male',
       1: 'female'

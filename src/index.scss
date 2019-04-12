@@ -160,3 +160,23 @@ body {
 .me-list .am-list-item {
   min-height: 3rem;
 }
+
+.am-image-picker-list .am-image-picker-item .am-image-picker-item-remove {
+  display: none;
+}
+
+.am-image-picker-list .am-image-picker-item .am-image-picker-item-content {
+  border-radius: 50% !important;
+  -webkit-border-radius: 50% !important;
+  -moz-border-radius: 50% !important;
+  -ms-border-radius: 50% !important;
+  -o-border-radius: 50% !important;
+}
+
+.am-image-picker-list .am-image-picker-upload-btn {
+  border-radius: 50% !important;
+  -webkit-border-radius: 50% !important;
+  -moz-border-radius: 50% !important;
+  -ms-border-radius: 50% !important;
+  -o-border-radius: 50% !important;
+}

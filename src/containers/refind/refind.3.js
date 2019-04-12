@@ -14,11 +14,11 @@ import {
 // redux
 import { connect } from 'react-redux';
 // reducer
-import { modifyPassword } from '../../redux/user.redux';
+import { updateInfo } from '../../redux/user.redux';
 
 @connect(
   state => state.user,
-  {modifyPassword}
+  {updateInfo}
 )
 class Refind3 extends React.Component {
   constructor(props) {
@@ -53,13 +53,13 @@ class Refind3 extends React.Component {
   handleModifyPassword() {
     const newPassword = this.state.newPassword;
     const mail = this.props.mail;
-    this.props.modifyPassword({newPassword, mail});
+    this.props.updateInfo({password: newPassword, mail});
   }
 
   render() {
     return (
       <>
-        {this.props.isModified ? <Redirect to='/login' /> : null}
+        {this.props.isUpdate ? <Redirect to='/login' /> : null}
         <div className='refind-header'>
           <div className='refind-text'>找回密码</div>
           <div className='refind-hint'>验证码将会发送至你的注册邮箱</div>

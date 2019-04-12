@@ -2,7 +2,7 @@
  * @Author: LiJiahao 
  * @Date: 2019-03-24 15:37:06 
  * @Last Modified by: LiJiahao
- * @Last Modified time: 2019-04-11 22:21:08
+ * @Last Modified time: 2019-04-12 20:10:29
  */
 const express = require('express');
 const utils = require('utility');
@@ -103,22 +103,22 @@ Router.post('/refind', function(req, res) {
 
 Router.post('/ensurecode', function(req, res) {
   const {mail, code} = req.body;
-  User.findOne({mail: mail}, function(err, doc) {
+  User.findOneAndUpdate({mail: mail, resetCode: Number(code)}, {resetCode: -1}, function(err, doc) {
     if(!doc)
       return res.json({ensureCode: 1});
-    if(doc.resetCode === Number(code))
-      return res.json({ensureCode: 0});
-    else
-      return res.json({ensureCode: 1, msg: '验证码错误'});
+    return res.json({ensureCode: 0});
   });
 });
 
-Router.post('/modifypassword', function(req, res) {
-  const {mail, newPassword} = req.body;
-  User.findOneAndUpdate({mail: mail}, {password: newPassword, resetCode: -1}, function(err, doc){
+// user updates info
+Router.post('/update', function(req, res) {
+  const {mail, password, ...obj} = req.body;
+  const data = password ? {password: md5Password(password), ...obj} : obj;
+  User.findOneAndUpdate({mail: mail}, {"$set": data}, function(err, doc){
     if(!doc)
-      return res.json({isModified: 1, msg: '修改密码失败'});
-    return res.json({isModified: 0});
+      return res.json({isUpdate: 1, msg: '修改失败'});
+    console.log(doc);
+    return res.json({isUpdate: 0});
   });
 });
 

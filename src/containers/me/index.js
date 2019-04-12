@@ -40,7 +40,7 @@ class Me extends Component {
     ];
     return (
       <div style={{position: 'relative', zIndex: '1',}}>
-        <ProfileCard user={this.props} />
+        <ProfileCard />
         <div style={{
           backgroundColor: '#aceacf',
           width: '96vw',

@@ -2,24 +2,37 @@
  * @Author: LiJiahao 
  * @Date: 2019-03-24 10:47:52 
  * @Last Modified by: LiJiahao
- * @Last Modified time: 2019-03-24 21:24:41
+ * @Last Modified time: 2019-04-12 18:19:29
  */
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 // customize router
 const routes = require('./routes')
-const { userRouter } = routes;
+const { userRouter, uploadRouter } = routes;
 
 // create express app
 const app = express();
 
+// allow cors
+app.all('*', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  // res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  res.header("Access-Control-Allow-Methods","*");
+  // res.header("X-Powered-By",' 3.2.1')
+  // res.header("Content-Type", "application/json;charset=utf-8");
+  next();
+});
+
 // use middleware
 app.use(cookieParser());
-app.use(bodyParser.json());
+app.use(bodyParser());
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 // use customize router
 app.use('/user', userRouter);
+app.use('/upload', uploadRouter);
 
 // set assets access permission
 app.use('/static', express.static('public'));

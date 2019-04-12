@@ -4,7 +4,7 @@ import { Toast } from 'antd-mobile';
 const AUTH_SUCCESS = 'AUTH_SUCCESS';
 const REFIND_SEND_MAIL_SUCCESS = 'REFIND_SEND_MAIL_SUCCESS';
 const REFIND_ENSURE_CODE = 'REFIND_ENSURE_CODE';
-const MODIFY_PASSWORD = 'MODIFY_PASSWORD';
+const UPDATE_SUCCESS = 'UPDATE_SUCCESS';
 const LOAD_DATA = 'LOAD_DATA';
 
 const initState = {
@@ -22,8 +22,8 @@ export const user = (state = initState, action) => {
       return {...state, sentReset: true, ...action.payload};
     case REFIND_ENSURE_CODE:
       return {...state, ensureCode: true, ...action.payload};
-    case MODIFY_PASSWORD:
-     return {...state, isModified: true, ...action.payload};
+    case UPDATE_SUCCESS:
+      return {...state, isUpdate: true, ...action.payload};
     case LOAD_DATA:
       return {...state,isAuth: true, ...action.payload};
     default:
@@ -92,12 +92,14 @@ function refindEnsureCode({mail, code}) {
   }
 }
 
-function modifyPassword({mail, newPassword}) {
+// update user info
+function updateInfo(obj) {
+  const {password, ...data} = obj;
   return dispatch => {
-    Axios.post('/user/modifypassword', {mail, newPassword})
+    Axios.post('/user/update', obj)
       .then(res => {
-        if(res.status === 200 && res.data.isModified === 0) {
-          dispatch(modifyPasswordSuccess({mail}));
+        if(res.status === 200 && res.data.isUpdate === 0) {
+          dispatch(updateSuccess(data))
         } else {
           Toast.info(res.data.msg, 1.5);
         }
@@ -120,12 +122,12 @@ function refindEnsureCodeSuccess(code) {
   return {type: REFIND_ENSURE_CODE, payload: code};
 }
 
-function modifyPasswordSuccess(mail) {
-  return {type: MODIFY_PASSWORD, payload: mail}
+function updateSuccess(data) {
+  return {type: UPDATE_SUCCESS, payload: data}
 }
 
 function loadData(userInfo) {
   return {type: LOAD_DATA, payload: userInfo};
 }
 
-export { login, register, refindSendMail, refindEnsureCode, modifyPassword, loadData };
+export { login, register, refindSendMail, refindEnsureCode, updateInfo, loadData };
