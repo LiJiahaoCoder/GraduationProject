@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { NavBar, Icon, List, ImagePicker, WingBlank, Modal } from 'antd-mobile';
+import { List, ImagePicker, WingBlank, Modal } from 'antd-mobile';
 import { connect } from 'react-redux';
 import Axios from 'axios';
+// components
+import NavBarHeader from '../../components/navbarHeader';
 // reducer
 import { updateInfo } from '../../redux/user.redux';
 
@@ -86,50 +88,44 @@ class ProfileInfo extends Component {
         type: 'introduction'
       }
     ];
+    const meComponent = (<List>
+      <Item
+        arrow='empty'
+      >
+        <WingBlank>
+          <ImagePicker
+            onChange={this.onChange}
+            files={[{url: this.props.avatar, id: this.props._id}]}
+            onImageClick={(index, fs) => console.log(index, fs)}
+          />
+        </WingBlank>
+      </Item>
+      {
+        meList.map(v => 
+          <Item
+            key={v.text}
+            arrow={v.onClick?'horizontal':null}
+            onClick={v.onClick?
+              () => prompt(`修改${v.text}`, '', [
+                { text: '取消' },
+                { text: '确认', onPress: value => this.handlePress(value, v.type) },
+              ],
+              'default',
+              v.extra||v.brief):
+              null
+            }
+            extra={v.extra?v.extra:null}
+          >
+            {v.text}<Brief>{v.brief?v.brief:null}</Brief>
+          </Item>
+        )
+      }
+    </List>);
 
     return (
       <div style={{position: 'relative', zIndex: '1'}}>
-        <NavBar
-          mode='dark'
-          icon={<Icon type='left' />}
-          leftContent='返回'
-          onLeftClick={()=>{this.props.history.goBack();}}
-        >
-          {title}
-        </NavBar>
-      <List>
-        <Item
-          arrow='empty'
-        >
-          <WingBlank>
-            <ImagePicker
-              onChange={this.onChange}
-              files={[{url: this.props.avatar, id: this.props._id}]}
-              onImageClick={(index, fs) => console.log(index, fs)}
-            />
-          </WingBlank>
-        </Item>
-        {
-          meList.map(v => 
-            <Item
-              key={v.text}
-              arrow={v.onClick?'horizontal':null}
-              onClick={v.onClick?
-                () => prompt(`修改${v.text}`, '', [
-                  { text: '取消' },
-                  { text: '确认', onPress: value => this.handlePress(value, v.type) },
-                ],
-                'default',
-                v.extra||v.brief):
-                null
-              }
-              extra={v.extra?v.extra:null}
-            >
-              {v.text}<Brief>{v.brief?v.brief:null}</Brief>
-            </Item>
-          )
-        }
-      </List>
+        <NavBarHeader title={title} />
+        {this.props.match.params.useraccount === 'me' ? meComponent : null}
       </div>
     );
   }

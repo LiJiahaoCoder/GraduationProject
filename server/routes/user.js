@@ -2,7 +2,7 @@
  * @Author: LiJiahao 
  * @Date: 2019-03-24 15:37:06 
  * @Last Modified by: LiJiahao
- * @Last Modified time: 2019-04-12 20:10:29
+ * @Last Modified time: 2019-04-13 11:03:39
  */
 const express = require('express');
 const utils = require('utility');
@@ -117,7 +117,6 @@ Router.post('/update', function(req, res) {
   User.findOneAndUpdate({mail: mail}, {"$set": data}, function(err, doc){
     if(!doc)
       return res.json({isUpdate: 1, msg: '修改失败'});
-    console.log(doc);
     return res.json({isUpdate: 0});
   });
 });

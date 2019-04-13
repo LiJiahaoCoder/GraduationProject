@@ -24,6 +24,7 @@ import Register from './containers/register';
 import Login from './containers/login';
 import Refind from './containers/refind';
 import ProfileInfo from './containers/profileInfo';
+import MeList from './containers/meList';
 // import components
 import AuthRoute from './components/authRoute';
 import Dashboard from './components/dashboard';
@@ -51,6 +52,7 @@ ReactDOM.render(
             <Route path='/refind' component={Refind} />
             <Route path='/register' component={Register} />
             <Route path='/profileinfo/:useraccount' component={ProfileInfo} />
+            <Route path='/me/:feature' component={MeList} />
             <Route component={Dashboard} />
           </Switch>
         </>

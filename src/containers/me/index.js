@@ -15,27 +15,33 @@ class Me extends Component {
       {
         text: '实名',
         icon: 'id-vertify',
+        path: 'idvertify',
         extra: this.props.isCertification ? '已认证' : '未认证'
       },
       {
         text: '银行卡',
-        icon: 'bankcard'
+        icon: 'bankcard',
+        path: 'bankcard',
       },
       {
         text: '安全',
-        icon: 'safe'
+        icon: 'safe',
+        path: 'safe',
       },
       {
         text: '订单',
-        icon: 'order'
+        icon: 'order',
+        path: 'order',
       },
       {
         text: '收藏',
-        icon: 'favorite'
+        icon: 'favorite',
+        path: 'favorite',
       },
       {
         text: '关于',
-        icon: 'about'
+        icon: 'about',
+        path: 'about',
       },
     ];
     return (
@@ -70,7 +76,7 @@ class Me extends Component {
             arrow='horizontal'
             thumb={`http://localhost:8888/static/images/${v.icon}.svg`}
             extra={this.props.isAuth?v.extra:'——'}
-            onClick={()=>{console.log(v.text)}}
+            onClick={()=>{this.props.history.push(`/me/${v.path}`)}}
           >{v.text}</Item>)}
         </List>
       </div>
