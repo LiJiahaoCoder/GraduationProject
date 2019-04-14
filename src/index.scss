@@ -153,6 +153,23 @@ body {
 }
 
 /* me */
+.recharge-card {
+  background-color: #aceacf;
+  width: 96vw;
+  height: 7rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 0 3rem;
+  margin: .5rem 2vw;
+  color: #8a8a8a;
+}
+
+.recharge-card:active {
+  box-shadow: .05em .1em .2em rgba(0,0,0,.6) inset;
+}
+
 .me-list .am-list-extra {
   flex-basis: initial;
 }

@@ -2,7 +2,7 @@
  * @Author: LiJiahao 
  * @Date: 2019-03-24 15:37:17 
  * @Last Modified by: LiJiahao
- * @Last Modified time: 2019-04-11 21:45:02
+ * @Last Modified time: 2019-04-14 13:51:12
  */
 /*
  * Map sql to nosql
@@ -47,6 +47,9 @@ const models = {
     'avatar': {type: String, default: `http://localhost:8888/static/images/avatar.default.${Math.ceil(Math.random() * 6)}.png`},
     'nickname': {type: String, default: Math.random().toString(36).substr(2, 6)},
     'introduction': {type: String, default: '还没有个人介绍耶( Ĭ ^ Ĭ )'}
+  },
+  goods: {
+    
   }
 };
 // create models

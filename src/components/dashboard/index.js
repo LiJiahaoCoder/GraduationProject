@@ -3,12 +3,8 @@ import { Route, Switch } from 'react-router-dom';
 // components
 import NavLinkBar from '../navLinkBar';
 import Me from '../../containers/me';
+import Category from '../category';
 
-function Category() {
-  return (
-    <h1>This is Category Page.</h1>
-  );
-}
 function Home() {
   return (
     <h1>This is Home Page.</h1>

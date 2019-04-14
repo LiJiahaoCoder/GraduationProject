@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 // components
+import Recharge from './recharge';
 import IdVertify from './idVertify';
 import BankCard from './bankcard';
 import Safe from './safe';
@@ -9,6 +10,10 @@ import Favorite from './favorite';
 import About from './about';
 
 const list = [
+  {
+    path: 'recharge',
+    component: Recharge
+  },
   {
     path: 'idvertify',
     component: IdVertify

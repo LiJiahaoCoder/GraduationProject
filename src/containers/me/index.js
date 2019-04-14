@@ -10,6 +10,19 @@ const Item = List.Item;
   state => state.user
 )
 class Me extends Component {
+  constructor(props) {
+    super(props);
+
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(path) {
+    if(this.props.isAuth)
+      this.props.history.push(`/me/${path}`);
+    else
+      this.props.history.push('/login');
+  }
+
   render() {
     const itemList = [
       {
@@ -47,18 +60,10 @@ class Me extends Component {
     return (
       <div style={{position: 'relative', zIndex: '1',}}>
         <ProfileCard />
-        <div style={{
-          backgroundColor: '#aceacf',
-          width: '96vw',
-          height: '7rem',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          boxSizing: 'border-box',
-          padding: '0 3rem',
-          margin: '.5rem 2vw',
-          color: '#8a8a8a'
-        }}>
+        <div
+          className='recharge-card'
+          onClick={setTimeout(()=>this.handleClick('recharge'), 1000)}
+        >
           <span style={{textAlign: 'center'}}>
             <img style={{height: '56px'}} src='http://localhost:8888/static/images/wallet.svg' alt='谁动了我的钱包?' />
             <br />
@@ -76,7 +81,7 @@ class Me extends Component {
             arrow='horizontal'
             thumb={`http://localhost:8888/static/images/${v.icon}.svg`}
             extra={this.props.isAuth?v.extra:'——'}
-            onClick={()=>{this.props.history.push(`/me/${v.path}`)}}
+            onClick={()=>this.handleClick(v.path)}
           >{v.text}</Item>)}
         </List>
       </div>
