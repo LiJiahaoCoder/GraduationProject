@@ -135,6 +135,7 @@ class Login extends Component {
             <Flex.Item>
               <WhiteSpace />
               <Button
+                className='my-button'
                 type='primary'
                 onClick={this.handleLogin}
               >

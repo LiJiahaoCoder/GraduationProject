@@ -197,6 +197,7 @@ class Register extends Component {
               </InputItem>
               <WhiteSpace />
               <Button
+                className='my-button'
                 type='primary'
                 disabled={this.isError()}
                 onClick={this.handleRegister}

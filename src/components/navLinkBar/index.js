@@ -1,8 +1,12 @@
 import React from 'react';
 import { TabBar } from 'antd-mobile';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 @withRouter
+@connect(
+  state => state.user
+)
 class NavLinkBar extends React.Component {
   render() {
     const navList = this.props.data.filter(v=>!v.hide);
@@ -14,6 +18,7 @@ class NavLinkBar extends React.Component {
             title={v.text}
             key={v.path}
             selected={pathname===v.path}
+            dot={v.path === '/me' ? (this.props.isCertification ? false : true) : false}
             icon={<div style={{
               width: '22px',
               height: '22px',

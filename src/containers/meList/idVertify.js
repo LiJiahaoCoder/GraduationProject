@@ -107,6 +107,7 @@ class IdVertify extends Component {
           </List.Item>
           <List.Item>
             <Button
+              className='my-button'
               type='primary'
               onClick={()=>{
                 this.hideModal();

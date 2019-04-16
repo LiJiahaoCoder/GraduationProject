@@ -78,6 +78,7 @@ class Refind2 extends React.Component {
         <WhiteSpace />
         <WhiteSpace />
         <Button
+          className='my-button'
           type='primary'
           disabled={!this.isError()}
           onClick={this.handleEnsureCode}

@@ -79,6 +79,7 @@ class Refind3 extends React.Component {
         <WhiteSpace />
         <WhiteSpace />
         <Button
+          className='my-button'
           type='primary'
           disabled={!this.isError()}
           onClick={this.handleModifyPassword}

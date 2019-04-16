@@ -2,7 +2,7 @@
  * @Author: LiJiahao 
  * @Date: 2019-03-24 10:47:52 
  * @Last Modified by: LiJiahao
- * @Last Modified time: 2019-04-12 18:19:29
+ * @Last Modified time: 2019-04-15 19:55:14
  */
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -26,8 +26,8 @@ app.all('*', function(req, res, next) {
 
 // use middleware
 app.use(cookieParser());
-app.use(bodyParser());
-// app.use(bodyParser.json());
+// app.use(bodyParser());
+app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 // use customize router

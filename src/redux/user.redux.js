@@ -99,6 +99,7 @@ function updateInfo(obj) {
     Axios.post('/user/update', obj)
       .then(res => {
         if(res.status === 200 && res.data.isUpdate === 0) {
+          Toast.info('成功', 1.5);
           dispatch(updateSuccess(data))
         } else {
           Toast.info(res.data.msg, 1.5);
@@ -110,7 +111,7 @@ function updateInfo(obj) {
 // action creators
 function authSuccess(obj) {
   const {password, ...data} = obj;
-  console.log(password, data);
+  // console.log(password, data);
   return {type: AUTH_SUCCESS, payload: data};
 }
 

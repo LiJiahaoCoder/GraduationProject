@@ -87,7 +87,7 @@ body {
   color: #666666;
 }
 
-.am-button-primary {
+.my-button {
   width: 90vw;
   margin-left: 5vw;
 }
@@ -203,4 +203,39 @@ body {
 .am-card-header-content>img {
   width: 32px;
   height: 32px;
+}
+// recharge
+.tag-container{
+  display: flex;
+  padding-top: 9px;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.tag-container > div {
+  margin-left: 9px;
+  margin-bottom: 9px;
+}
+
+.recharge-other-amount {
+  width: 90px;
+  height: 25px;
+  border: 1px solid rgb(221, 221, 221);
+  border-radius: 3px;
+  margin-left: 9px;
+  text-align: center;
+}
+
+.recharge-other-amount:focus {
+  border: 1PX solid #108ee9;
+}
+
+.recharge-amount {
+  color: #0084ff;
+  font-size: 1.5rem;
+  margin-left: 9px;
+}
+
+.recharge-extra {
+  font-size: 12px;
 }

@@ -8,6 +8,7 @@ import Safe from './safe';
 import Order from './order';
 import Favorite from './favorite';
 import About from './about';
+import ModifyPassword from './modifyPassword';
 
 const list = [
   {
@@ -37,6 +38,10 @@ const list = [
   {
     path: 'about',
     component: About
+  },
+  {
+    path: 'modifypassword',
+    component: ModifyPassword
   }
 ];
 

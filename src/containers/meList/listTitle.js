@@ -4,7 +4,8 @@ const listTitle = {
   order: '我的订单',
   favorite: '我的收藏',
   safe: '我的安全',
-  about: '关于'
+  about: '关于',
+  modifypassword: '修改密码'
 };
 
 function getTitle(url) {

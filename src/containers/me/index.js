@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { List } from 'antd-mobile';
+import { List, Badge } from 'antd-mobile';
 // components
 import ProfileCard from '../../components/profileCard';
 
@@ -62,7 +62,7 @@ class Me extends Component {
         <ProfileCard />
         <div
           className='recharge-card'
-          onClick={setTimeout(()=>this.handleClick('recharge'), 1000)}
+          onClick={() => setTimeout(()=>this.handleClick('recharge'), 1000)}
         >
           <span style={{textAlign: 'center'}}>
             <img style={{height: '56px'}} src='http://localhost:8888/static/images/wallet.svg' alt='谁动了我的钱包?' />
@@ -76,13 +76,16 @@ class Me extends Component {
         </div>
         <List className='me-list'>
           {itemList.map(v => 
-          <Item
-            key={v.icon}
-            arrow='horizontal'
-            thumb={`http://localhost:8888/static/images/${v.icon}.svg`}
-            extra={this.props.isAuth?v.extra:'——'}
-            onClick={()=>this.handleClick(v.path)}
-          >{v.text}</Item>)}
+            <Item
+              key={v.icon}
+              arrow='horizontal'
+              thumb={`http://localhost:8888/static/images/${v.icon}.svg`}
+              extra={this.props.isAuth?v.extra:'——'}
+              onClick={()=>this.handleClick(v.path)}
+            >
+              {v.text}
+            </Item>)
+          }
         </List>
       </div>
     );

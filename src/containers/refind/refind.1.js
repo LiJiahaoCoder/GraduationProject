@@ -75,6 +75,7 @@ class Refind1 extends Component {
         <WhiteSpace />
         <WhiteSpace />
         <Button
+          className='my-button'
           type='primary'
           disabled={!this.isError()}
           onClick={this.handleRefind}
