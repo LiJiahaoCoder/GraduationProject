@@ -2,7 +2,7 @@
  * @Author: LiJiahao 
  * @Date: 2019-03-24 15:37:17 
  * @Last Modified by: LiJiahao
- * @Last Modified time: 2019-04-14 13:51:12
+ * @Last Modified time: 2019-04-16 16:41:45
  */
 /*
  * Map sql to nosql
@@ -49,7 +49,18 @@ const models = {
     'introduction': {type: String, default: '还没有个人介绍耶( Ĭ ^ Ĭ )'}
   },
   goods: {
-    
+    'price': {type: Number},
+    'name': {type: String},
+    'images': [{'url': String}],
+    'introduction': {type: String},
+    'owner': {type: String}
+  },
+  order: {
+    'goodsId': {type: mongoose.Schema.Types.ObjectId},
+    'status': {type: String},
+    'buyer': {type: String},
+    'comment': {type: String},
+    'score': {type: Number}
   }
 };
 // create models

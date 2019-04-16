@@ -42,6 +42,11 @@ class Me extends Component {
         path: 'safe',
       },
       {
+        text: '发布',
+        icon: 'publish',
+        path: 'publish',
+      },
+      {
         text: '订单',
         icon: 'order',
         path: 'order',

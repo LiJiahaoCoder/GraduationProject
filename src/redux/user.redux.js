@@ -94,13 +94,14 @@ function refindEnsureCode({mail, code}) {
 
 // update user info
 function updateInfo(obj) {
-  const {password, ...data} = obj;
+  const {password, ...tmp} = obj;
   return dispatch => {
     Axios.post('/user/update', obj)
       .then(res => {
         if(res.status === 200 && res.data.isUpdate === 0) {
           Toast.info('成功', 1.5);
-          dispatch(updateSuccess(data))
+          const data = password ? {isAuth: false, ...tmp} : tmp;
+          setTimeout(() => dispatch(updateSuccess(data)), 1000);
         } else {
           Toast.info(res.data.msg, 1.5);
         }
