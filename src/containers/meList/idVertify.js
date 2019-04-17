@@ -5,6 +5,7 @@ import { Card, List, Modal, Button, InputItem, Toast } from 'antd-mobile';
 import NavBarHeader from '../../components/navbarHeader';
 import { updateInfo } from '../../redux/user.redux';
 import {listTitle, getTitle} from './listTitle';
+import { AVATAR_PATH } from '../../path';
 
 // 身份证正则验证
 const idcardReg = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
@@ -74,7 +75,7 @@ class IdVertify extends Component {
           >
             <Card.Header
               title={isCertification?this.props.name:'——'}
-              thumb={this.props.avatar}
+              thumb={`${AVATAR_PATH}${this.props.avatar}`}
               extra={<span>{isCertification?this.resolveId(this.props.identityNumber):'未认证'}</span>}
             />
           </List.Item>

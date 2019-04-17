@@ -5,6 +5,7 @@ const AUTH_SUCCESS = 'AUTH_SUCCESS';
 const REFIND_SEND_MAIL_SUCCESS = 'REFIND_SEND_MAIL_SUCCESS';
 const REFIND_ENSURE_CODE = 'REFIND_ENSURE_CODE';
 const UPDATE_SUCCESS = 'UPDATE_SUCCESS';
+const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
 const LOAD_DATA = 'LOAD_DATA';
 
 const initState = {
@@ -24,6 +25,8 @@ export const user = (state = initState, action) => {
       return {...state, ensureCode: true, ...action.payload};
     case UPDATE_SUCCESS:
       return {...state, isUpdate: true, ...action.payload};
+    case UPLOAD_SUCCESS:
+      return {...state, isUpload: true, ...action.paload};
     case LOAD_DATA:
       return {...state,isAuth: true, ...action.payload};
     default:
@@ -109,6 +112,25 @@ function updateInfo(obj) {
   }
 }
 
+// upload image
+function uploadImage(obj) {
+  const {fd, avatar, ...tmp} = obj;
+  return dispatch => {
+    if(avatar) {
+    // 如果是上传头像
+    Axios.post('/upload/avatar', fd)
+      .then(res => {
+        if(res.status === 200 && res.data.isUpload === 0) {
+          Toast.info('成功', 1.5);
+          setTimeout(() => dispatch(uploadSuccess(res.data.data)), 1000);
+        } else {
+          Toast.info(res.data.msg, 1.5);
+        }
+      });
+    }
+  }
+}
+
 // action creators
 function authSuccess(obj) {
   const {password, ...data} = obj;
@@ -125,11 +147,15 @@ function refindEnsureCodeSuccess(code) {
 }
 
 function updateSuccess(data) {
-  return {type: UPDATE_SUCCESS, payload: data}
+  return {type: UPDATE_SUCCESS, payload: data};
+}
+
+function uploadSuccess(obj) {
+  return {type: UPLOAD_SUCCESS, paload: obj};
 }
 
 function loadData(userInfo) {
   return {type: LOAD_DATA, payload: userInfo};
 }
 
-export { login, register, refindSendMail, refindEnsureCode, updateInfo, loadData };
+export { login, register, refindSendMail, refindEnsureCode, updateInfo, loadData, uploadImage };

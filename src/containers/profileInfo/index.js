@@ -5,7 +5,8 @@ import Axios from 'axios';
 // components
 import NavBarHeader from '../../components/navbarHeader';
 // reducer
-import { updateInfo } from '../../redux/user.redux';
+import { uploadImage } from '../../redux/user.redux';
+import { AVATAR_PATH } from '../../path';
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -21,7 +22,7 @@ const prompt = Modal.prompt;
 
 @connect(
   state => state.user,
-  {updateInfo}
+  {uploadImage}
 )
 class ProfileInfo extends Component {
   constructor(props) {
@@ -44,20 +45,13 @@ class ProfileInfo extends Component {
     return false;
   }
 
-
-  onChange (files, type, index) {
-    console.log(files, type, index);
-    this.setState({
-      avatar: files[files.length - 1].url,
-    });
-    // set avatar into formdata
+  onChange(files) {
+    console.log('----- enter onChange function -----');
+    console.log(files[files.length - 1].file);
     let fd = new FormData();
-    fd.append('file', files[files.length - 1]);
-    /* let file = files[files.length - 1];
-    console.log(file); */
-    // store to database
-    Axios.post('/upload', fd)
-      .then(res => {console.log(res)});
+    fd.append('file', files[files.length - 1].file);
+    fd.append('mail', this.props.mail);
+    this.props.uploadImage({fd: fd, avatar: true});
   }
 
   handlePress(value, type) {
@@ -93,11 +87,13 @@ class ProfileInfo extends Component {
         arrow='empty'
       >
         <WingBlank>
-          <ImagePicker
-            onChange={this.onChange}
-            files={[{url: this.props.avatar, id: this.props._id}]}
-            onImageClick={(index, fs) => console.log(index, fs)}
-          />
+          <form encType='multipart/form-data'>
+            <ImagePicker
+              onChange={files => this.onChange(files)}
+              files={[{url: `${AVATAR_PATH}${this.props.avatar}`, id: this.props._id}]}
+              onImageClick={(index, fs) => console.log(index, fs)}
+            />
+          </form>
         </WingBlank>
       </Item>
       {

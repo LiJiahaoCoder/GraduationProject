@@ -2,7 +2,7 @@
  * @Author: LiJiahao 
  * @Date: 2019-03-24 10:47:52 
  * @Last Modified by: LiJiahao
- * @Last Modified time: 2019-04-15 19:55:14
+ * @Last Modified time: 2019-04-17 13:34:17
  */
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -36,6 +36,7 @@ app.use('/upload', uploadRouter);
 
 // set assets access permission
 app.use('/static', express.static('public'));
+app.use('/static/upload', express.static('upload'));
 
 // info showed in homepage
 app.get('/', function(req, res) {

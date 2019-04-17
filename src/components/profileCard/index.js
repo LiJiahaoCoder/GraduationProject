@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+// assets path
+import { ICON_PATH, AVATAR_PATH } from '../../path';
 
 @withRouter
 @connect(
@@ -49,7 +51,7 @@ class ProfileCard extends Component {
             style={{
               height: '5.4rem'
             }}
-            src={user.isAuth?user.avatar:'http://localhost:8888/static/images/login.png'}
+            src={user.isAuth?AVATAR_PATH+user.avatar:`${AVATAR_PATH}login.png`}
             alt='(ಥ_ಥ)'
           />
         </span>
@@ -61,7 +63,7 @@ class ProfileCard extends Component {
           (
           <div>
             <span style={{verticalAlign: 'middle'}}>{user.nickname}</span>
-            <img style={{height: '22px', verticalAlign: 'middle', paddingLeft: '10px'}} src={`http://localhost:8888/static/images/gender-${gender[user.gender]}.png`} alt='你是GG还是MM' />
+            <img style={{height: '22px', verticalAlign: 'middle', paddingLeft: '10px'}} src={`${ICON_PATH}gender-${gender[user.gender]}.png`} alt='你是GG还是MM' />
             <div style={{
               overflow: 'hidden',
               textOverflow: 'ellipsis',

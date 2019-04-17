@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import { updateInfo } from '../../redux/user.redux';
 import NavBarHeader from '../../components/navbarHeader';
+import { AVATAR_PATH } from '../../path';
 
 const alert = Modal.alert;
 
@@ -67,7 +68,7 @@ class Recharge extends Component {
         <Card full>
           <Card.Header
             title={this.props.account}
-            thumb={this.props.avatar}
+            thumb={`${AVATAR_PATH}${this.props.avatar}`}
             extra={<span className='recharge-extra'>昵称：{this.props.nickname}(余额:{this.props.stars})</span>}
           />
           <Card.Body>

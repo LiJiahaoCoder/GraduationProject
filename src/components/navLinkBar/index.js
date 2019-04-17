@@ -3,6 +3,8 @@ import { TabBar } from 'antd-mobile';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import { ICON_PATH } from '../../path';
+
 @withRouter
 @connect(
   state => state.user
@@ -22,13 +24,13 @@ class NavLinkBar extends React.Component {
             icon={<div style={{
               width: '22px',
               height: '22px',
-              background: `url(http://localhost:8888/static/images/${v.icon}.svg) center center /  21px 21px no-repeat` }}
+              background: `url(${ICON_PATH}${v.icon}.svg) center center /  21px 21px no-repeat` }}
             />
             }
             selectedIcon={<div style={{
               width: '22px',
               height: '22px',
-              background: `url(http://localhost:8888/static/images/${v.icon}-active.svg) center center /  21px 21px no-repeat` }}
+              background: `url(${ICON_PATH}${v.icon}-active.svg) center center /  21px 21px no-repeat` }}
             />
             }
             onPress={()=>{

@@ -20,6 +20,8 @@ import { register } from '../../redux/user.redux';
 // container
 import Footer from '../../components/footer';
 
+import { ICON_PATH } from '../../path';
+
 @connect(
   state => state.user,
   { register }
@@ -95,7 +97,7 @@ class Register extends Component {
             top: '0',
             zIndex: '-1',
             backgroundColor: '#b8e5f8',
-            backgroundImage: 'url(http://localhost:8888/static/images/background.png)',
+            backgroundImage: `url(${ICON_PATH}background.png)`,
               backgroundRepeat: 'no-repeat',
               backgroundSize: 'cover',
               backgroundAttachment: 'fixed',

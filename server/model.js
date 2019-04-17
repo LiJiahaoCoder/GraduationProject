@@ -44,7 +44,7 @@ const models = {
     'stars': {type: Number, default: 0},  // virtual coin on plateform
     'experience': {type: Number, default: 0}, // buy/sale goods will increase experience
     // optional information
-    'avatar': {type: String, default: `http://localhost:8888/static/images/avatar.default.${Math.ceil(Math.random() * 6)}.png`},
+    'avatar': {type: String, default: `avatar.default.${Math.ceil(Math.random() * 6)}.png`},
     'nickname': {type: String, default: Math.random().toString(36).substr(2, 6)},
     'introduction': {type: String, default: '还没有个人介绍耶( Ĭ ^ Ĭ )'}
   },
@@ -53,12 +53,12 @@ const models = {
     'name': {type: String},
     'images': [{'url': String}],
     'introduction': {type: String},
-    'owner': {type: String}
+    'owner': {type: String} // mail
   },
   order: {
     'goodsId': {type: mongoose.Schema.Types.ObjectId},
     'status': {type: String},
-    'buyer': {type: String},
+    'buyer': {type: String},  // mail
     'comment': {type: String},
     'score': {type: Number}
   }
