@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { List, ImagePicker, WingBlank, Modal } from 'antd-mobile';
 import { connect } from 'react-redux';
-import Axios from 'axios';
 // components
 import NavBarHeader from '../../components/navbarHeader';
 // reducer
@@ -11,14 +10,6 @@ import { AVATAR_PATH } from '../../path';
 const Item = List.Item;
 const Brief = Item.Brief;
 const prompt = Modal.prompt;
-
-/* const config = {
-  headers: {
-    'Content-Type': 'multipart/form-data'
-  }
-}; */
-
-// TODO: 还没实现上传更换头像
 
 @connect(
   state => state.user,

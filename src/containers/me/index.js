@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { List, Badge } from 'antd-mobile';
+import { List } from 'antd-mobile';
 // components
 import ProfileCard from '../../components/profileCard';
 

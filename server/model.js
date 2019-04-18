@@ -2,7 +2,7 @@
  * @Author: LiJiahao 
  * @Date: 2019-03-24 15:37:17 
  * @Last Modified by: LiJiahao
- * @Last Modified time: 2019-04-16 16:41:45
+ * @Last Modified time: 2019-04-18 21:39:50
  */
 /*
  * Map sql to nosql
@@ -51,6 +51,10 @@ const models = {
   goods: {
     'price': {type: Number},
     'name': {type: String},
+    'type': {type: String},
+    'brand': {type: String},
+    'boughtTime': {type: String},
+    'newLevel': {type: Number},
     'images': [{'url': String}],
     'introduction': {type: String},
     'owner': {type: String} // mail
