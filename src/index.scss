@@ -190,6 +190,18 @@ body {
   -o-border-radius: 50% !important;
 }
 
+.goods-image .am-image-picker-list .am-image-picker-item .am-image-picker-item-remove {
+  display: block;
+}
+
+.goods-image .am-image-picker-list .am-image-picker-item .am-image-picker-item-content {
+  border-radius: 3px !important;
+  -webkit-border-radius: 3px !important;
+  -moz-border-radius: 3px !important;
+  -ms-border-radius: 3px !important;
+  -o-border-radius: 3px !important;
+}
+
 .am-image-picker-list .am-image-picker-upload-btn {
   border-radius: 50% !important;
   -webkit-border-radius: 50% !important;

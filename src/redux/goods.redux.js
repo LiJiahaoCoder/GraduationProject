@@ -18,7 +18,29 @@ export const goods = (state = initialState, action) => {
 }
 
 function uploadGoods(obj) {
-
+  let {images, newLevel, mail, price, ...tmp} = obj;
+  newLevel = Number(newLevel[0]);
+  price = Number(price);
+  // 输出多个图片
+  images = images.map(v => {
+    return v.file;
+  });
+  const fd = new FormData();
+  for(let i = 0; i < images.length; i++) {
+    fd.append('files', images[i]);
+  }
+  const data = {newLevel, mail, price, ...tmp};
+  for(let key in data) {
+    fd.append(`${key}`, data[key]);
+  }
+  console.info(data);
+  return dispatch => {
+    Axios.post('/upload/goods', fd)
+      .then(res => {
+        console.log('111');
+      });
+    // dispatch(uploadSuccess(obj));
+  }
 }
 
 // action creator

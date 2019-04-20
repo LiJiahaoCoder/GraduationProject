@@ -2,7 +2,7 @@
  * @Author: LiJiahao 
  * @Date: 2019-03-24 15:37:17 
  * @Last Modified by: LiJiahao
- * @Last Modified time: 2019-04-18 21:39:50
+ * @Last Modified time: 2019-04-20 17:13:16
  */
 /*
  * Map sql to nosql
@@ -49,12 +49,12 @@ const models = {
     'introduction': {type: String, default: '还没有个人介绍耶( Ĭ ^ Ĭ )'}
   },
   goods: {
-    'price': {type: Number},
+    'price': {type: String},
     'name': {type: String},
     'type': {type: String},
     'brand': {type: String},
     'boughtTime': {type: String},
-    'newLevel': {type: Number},
+    'newLevel': {type: String},
     'images': [{'url': String}],
     'introduction': {type: String},
     'owner': {type: String} // mail

@@ -15,10 +15,45 @@ import {listTitle, getTitle} from './listTitle';
 import {uploadGoods} from '../../redux/goods.redux';
 import {ICON_PATH} from '../../path';
 
-const date = new Date(Date.now());
-const MONTH = date.getMonth();
-const YEAR = date.getFullYear();
+// 生成购买时间列表
+let date = new Date(Date.now());
+const TIME_LIST = [];
+let ALL_MONTH = [];
+let THIS_MONTH = [];
+for(let i = 1; i < date.getMonth() + 1; i++) {
+  THIS_MONTH.push({
+    value: i,
+    label: `${i}月`
+  });
+}
+for(let i = 1; i < 13; i++) {
+  ALL_MONTH.push({
+    value: i,
+    label: `${i}月`
+  });
+}
+for(let i = 2000; i < date.getFullYear() + 1; i++) {
+  if(i === date.getFullYear()) {
+    TIME_LIST.push({
+      value: i,
+      label: `${i}年`,
+      children: THIS_MONTH
+    });
+  } else {
+    TIME_LIST.push({
+      value: i,
+      label: `${i}年`,
+      children: ALL_MONTH
+    });
+  }
+}
+TIME_LIST.unshift({value: '', label: '请选择'});
+// 新旧程度以及类型列表
 const LEVEL_LIST = [
+  {
+    value: '',
+    label: '请选择'
+  },
   {
     value: '10',
     label: '全新'
@@ -49,6 +84,10 @@ const LEVEL_LIST = [
   }
 ];
 const TYPE_LIST = [
+  {
+    value: '',
+    label: '请选择'
+  },
   {
     value: '男装',
     label: '男装',
@@ -305,6 +344,7 @@ class Publish extends Component {
     super(props);
 
     this.state = {
+      mail: '',
       name: '',
       brand: '',
       price: '',
@@ -316,12 +356,36 @@ class Publish extends Component {
     }
 
     this.onChange = this.onChange.bind(this);
+    this.onImageChange = this.onImageChange.bind(this);
+    this.handlePublish = this.handlePublish.bind(this);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if(this.props !== nextProps) {
+      const {mail} = nextProps;
+      this.setState({mail});
+      return true;
+    }
+    if(this.state !== nextState)
+      return true;
+    return false;
   }
 
   onChange(val, key) {
     this.setState({
       [key]: val
     });
+    // console.log(this.state);
+  }
+
+  onImageChange(files) {
+    // console.log('----- enter onChange function -----');
+    // console.log(files);
+    this.setState({images: files});
+  }
+
+  handlePublish() {
+    this.props.uploadGoods(this.state);
   }
 
   render() {
@@ -330,6 +394,7 @@ class Publish extends Component {
         <NavBarHeader title={listTitle[getTitle(this.props.match.url)]} />
         <WhiteSpace />
         <>
+        <form encType='multipart/form-data'>
           <InputItem
             maxLength={24}
             onChange={(val) => this.onChange(val, 'name')}
@@ -342,6 +407,15 @@ class Publish extends Component {
           >
             商品品牌
           </InputItem>
+          <Picker
+            data={TIME_LIST}
+            cols={2}
+            title='选择购买年月'
+            value={this.state.boughtTime}
+            onPickerChange={(val) => this.onChange(val, 'boughtTime')}
+          >
+            <List.Item arrow='horizontal'>购买年月</List.Item>
+          </Picker>
           <Picker
             data={LEVEL_LIST}
             cols={1}
@@ -366,13 +440,25 @@ class Publish extends Component {
           >
             出售价格
           </InputItem>
+            <ImagePicker
+              className='goods-image'
+              length={5}
+              multiple={true}
+              selectable={this.state.images.length<5}
+              files={this.state.images}
+              onChange={files => this.onImageChange(files)}
+            />
+          <div style={{color: '#666', textAlign: 'right'}}>最多上传5张照片</div>
+          <WhiteSpace />
           <TextareaItem
             placeholder='请输入商品描述，不超过150个字符'
             rows={5}
             count={150}
+            files={this.state.images}
             onChange={(val) => this.onChange(val, 'introduction')}
-          />
-          <Button type='primary'>发布</Button>
+            />
+          <Button type='primary' onClick={this.handlePublish}>发布</Button>
+          </form>
         </>
       </div>
     );
