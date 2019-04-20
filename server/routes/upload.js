@@ -9,10 +9,21 @@ const User = model.getModel('user');
 let tStamp = Date.now();
 
 // 使用硬盘存储模式设置存放接收到的文件的路径以及文件名
-var storage = multer.diskStorage({
+var storageAvatar = multer.diskStorage({
   destination: function (req, file, cb) {
       // 接收到文件后输出的保存路径（若不存在则需要创建）
       cb(null, 'upload/avatar/');
+  },
+  filename: function (req, file, cb) {
+      // 将保存文件名设置为 时间戳 + 文件原始名，比如 151342376785-123.jpg
+      tStamp = Date.now();
+      cb(null, tStamp + '-' + file.originalname);
+  }
+});
+var storageGoods = multer.diskStorage({
+  destination: function (req, file, cb) {
+      // 接收到文件后输出的保存路径（若不存在则需要创建）
+      cb(null, 'upload/goods/');
   },
   filename: function (req, file, cb) {
       // 将保存文件名设置为 时间戳 + 文件原始名，比如 151342376785-123.jpg
@@ -33,21 +44,23 @@ var createFolder = function(folder){
   }  
 };
 
-var uploadFolder = './upload/avatar/';
-createFolder(uploadFolder);
+const uploadAvatarFolder = './upload/avatar/';
+const uploadGoodsFolder = './upload/goods/';
+createFolder(uploadAvatarFolder);
+createFolder(uploadGoodsFolder);
 
 // 创建 multer 对象
-var upload = multer({ storage: storage});
+let uploadAvatar = multer({ storage: storageAvatar});
 
 /* POST upload listing. */
-Router.post('/avatar', upload.single('file'), function(req, res, next) {
+Router.post('/avatar', uploadAvatar.single('file'), function(req, res, next) {
   // store avatar path into database
   const avatar = tStamp + '-' + req.file.originalname;
   const mail = req.body.mail;
-  // console.log('文件类型：%s', file.mimetype);
-  // console.log('原始文件名：%s', file.originalname);
-  // console.log('文件大小：%s', file.size);
-  // console.log('文件保存路径：%s', file.path);
+  /* console.log('文件类型：%s', file.mimetype);
+  console.log('原始文件名：%s', file.originalname);
+  console.log('文件大小：%s', file.size);
+  console.log('文件保存路径：%s', file.path); */
   // 储存到数据库
   const data = {avatar: avatar};
   User.findOneAndUpdate({mail: mail}, {"$set": data}, function(err, doc){
