@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import {
   InputItem,
   WhiteSpace,
@@ -11,7 +12,6 @@ import {
 } from 'antd-mobile';
 
 import NavBarHeader from '../../components/navbarHeader';
-import {listTitle, getTitle} from './listTitle';
 import {uploadGoods} from '../../redux/goods.redux';
 import {ICON_PATH} from '../../path';
 
@@ -336,7 +336,7 @@ const TYPE_LIST = [
   }
 ];
 @connect(
-  state => state.user,
+  state => state,
   {uploadGoods}
 )
 class Publish extends Component {
@@ -360,22 +360,11 @@ class Publish extends Component {
     this.handlePublish = this.handlePublish.bind(this);
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if(this.props !== nextProps) {
-      const {mail} = nextProps;
-      this.setState({mail});
-      return true;
-    }
-    if(this.state !== nextState)
-      return true;
-    return false;
-  }
-
   onChange(val, key) {
     this.setState({
       [key]: val
     });
-    // console.log(this.state);
+    this.setState({mail: this.props.user.mail});
   }
 
   onImageChange(files) {
@@ -386,12 +375,16 @@ class Publish extends Component {
 
   handlePublish() {
     this.props.uploadGoods(this.state);
+    setTimeout(() => {
+      if(this.props.goods.isUpload)
+        this.props.history.goBack();
+    }, 500);
   }
 
   render() {
     return (
       <div>
-        <NavBarHeader title={listTitle[getTitle(this.props.match.url)]} />
+        <NavBarHeader title='发布' />
         <WhiteSpace />
         <>
         <form encType='multipart/form-data'>

@@ -4,6 +4,7 @@ const fs = require('fs');
 const multer  = require('multer');
 const model = require('../model');
 const User = model.getModel('user');
+const Goods = model.getModel('goods');
 
 // 定义全局时间戳
 let tStamp = Date.now();
@@ -76,19 +77,25 @@ Router.post('/avatar', uploadAvatar.single('file'), function(req, res, next) {
 });
 
 Router.post('/goods', uploadGoods.array('files', 5), function(req, res, next) {
-  console.log(req.files.length);
-  console.info(req.body);
-  console.log(goodsName);
-  // store avatar path into database
-  /* const avatar = tStamp + '-' + req.file.originalname;
-  const mail = req.body.mail; */
-  /* console.log('文件类型：%s', file.mimetype);
-  console.log('原始文件名：%s', file.originalname);
-  console.log('文件大小：%s', file.size);
-  console.log('文件保存路径：%s', file.path); */
+  // console.log(req.files.length);
+  // console.info(req.body);
+  // console.log(goodsName);
   // 储存到数据库
-  /* const data = {avatar: avatar};
-  User.findOneAndUpdate({mail: mail}, {"$set": data}, function(err, doc){
+  let {price, mail, ...tmp} = req.body;
+  const data = {owner: mail, images: goodsName, price: Number(price), ...tmp};
+  const goodsModel = new Goods(data);
+  goodsModel.save(function(err, doc) {
+    if(err) {
+      return res.json({code: 1, msg: '后端出现了问题'});
+    }
+    // 清空商品名称
+    goodsName = [];
+    Goods.find({owner: data.owner}, function(err, doc) {
+      if(doc)
+        return res.json({isUpload: 0, data: doc});
+    });
+  });
+  /* User.findOneAndUpdate({mail: mail}, {"$set": data}, function(err, doc){
     if(!doc)
       return res.json({isUpload: 1, msg: '修改失败'});
     return res.json({isUpload: 0, data: {avatar: avatar}});

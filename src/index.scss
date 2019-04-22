@@ -252,6 +252,24 @@ body {
   font-size: 12px;
 }
 
+// publish
+.publish-button {
+  width: 100%;
+  height: 90px;
+  text-align: center;
+  color: #888;
+  font-size: 3rem;
+  line-height: 90px;
+  border-radius: 5px;
+  background: white;
+  border: 2px solid rgb(204, 204, 204);
+  box-shadow: -1px 1px 4px 0px #999;
+}
+
+.publish-button:active {
+  box-shadow: .05em .1em .2em rgba(0,0,0,.6) inset;
+}
+
 /* category */
 .am-grid, .am-grid-square, .am-grid-line {
   width: 100%;

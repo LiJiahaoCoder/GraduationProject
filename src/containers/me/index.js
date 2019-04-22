@@ -44,7 +44,7 @@ class Me extends Component {
       {
         text: '发布',
         icon: 'publish',
-        path: 'publish',
+        path: 'publishlist',
       },
       {
         text: '订单',
@@ -67,7 +67,7 @@ class Me extends Component {
         <ProfileCard />
         <div
           className='recharge-card'
-          onClick={() => setTimeout(()=>this.handleClick('recharge'), 1000)}
+          onClick={() => setTimeout(()=>this.handleClick('recharge'), 500)}
         >
           <span style={{textAlign: 'center'}}>
             <img style={{height: '56px'}} src='http://localhost:8888/static/images/wallet.svg' alt='谁动了我的钱包?' />

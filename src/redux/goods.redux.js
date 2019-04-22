@@ -2,6 +2,7 @@ import Axios from 'axios';
 import { Toast } from 'antd-mobile';
 
 const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
+const LOAD_GOODS = 'LOAD_GOODS';
 
 const initialState = {
   goodsList: []
@@ -33,19 +34,21 @@ function uploadGoods(obj) {
   for(let key in data) {
     fd.append(`${key}`, data[key]);
   }
-  console.info(data);
+  // console.info(data);
   return dispatch => {
     Axios.post('/upload/goods', fd)
       .then(res => {
-        console.log('111');
+        if(res.status === 200 && res.data.isUpload === 0) {
+          Toast.info('成功', 1.5);
+          dispatch(uploadSuccess(res.data.data));
+        }
       });
-    // dispatch(uploadSuccess(obj));
   }
 }
 
 // action creator
 function uploadSuccess(obj) {
-  return {type: UPLOAD_SUCCESS, payload: obj};
+  return {type: UPLOAD_SUCCESS, payload: {goodsList: obj}};
 }
 
 export {uploadGoods};

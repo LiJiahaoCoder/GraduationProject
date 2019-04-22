@@ -5,6 +5,7 @@ import Recharge from './recharge';
 import IdVertify from './idVertify';
 import BankCard from './bankcard';
 import Safe from './safe';
+import PublishList from './publishList';
 import Publish from './publish';
 import Order from './order';
 import Favorite from './favorite';
@@ -27,6 +28,10 @@ const list = [
   {
     path: 'safe',
     component: Safe
+  },
+  {
+    path: 'publishlist',
+    component: PublishList
   },
   {
     path: 'publish',
