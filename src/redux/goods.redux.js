@@ -2,19 +2,54 @@ import Axios from 'axios';
 import { Toast } from 'antd-mobile';
 
 const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
-const LOAD_GOODS = 'LOAD_GOODS';
+const LOAD_PUBLISH = 'LOAD_PUBLISH';
+const DELETE_PUBLISH = 'DELETE_PUBLISH';
 
 const initialState = {
   goodsList: []
 };
 
 // reducer
-export const goods = (state = initialState, action) => {
+const goods = (state = initialState, action) => {
   switch (action.type) {
     case UPLOAD_SUCCESS:
       return {...state, isUpload: true, ...action.payload};
+    case DELETE_PUBLISH:
+      return {...state, ...action.payload};
+    case LOAD_PUBLISH:
+      return {...state, ...action.payload};
     default:
       return state;
+  }
+}
+
+function deletePublish(obj) {
+  const {mail, _id} = obj;
+  return dispatch => {
+    Axios.post('/goods/deletepublish', {mail, _id})
+      .then(res => {
+        if(res.status === 200 && res.data.code === 0) {
+          let data = res.data.data;
+          Toast.info('成功', 1.5)
+          setTimeout(
+            () => dispatch(deletePublishSuccess(data.reverse())),
+            1000
+          );
+        }
+      });
+  }
+}
+
+function loadPublish(obj) {
+  const {mail} = obj;
+  return dispatch => {
+    Axios.post('/goods/mypublish', {mail})
+      .then(res => {
+        if(res.status === 200 && res.data.code === 0) {
+          let data = res.data.data;
+          dispatch(loadPublishSuccess(data.reverse()));
+        }
+      });
   }
 }
 
@@ -47,8 +82,16 @@ function uploadGoods(obj) {
 }
 
 // action creator
+function deletePublishSuccess(obj) {
+  return {type: DELETE_PUBLISH, payload: {goodsList: obj}};
+}
+
+function loadPublishSuccess(obj) {
+  return {type: LOAD_PUBLISH, payload: {goodsList: obj}};
+}
+
 function uploadSuccess(obj) {
   return {type: UPLOAD_SUCCESS, payload: {goodsList: obj}};
 }
 
-export {uploadGoods};
+export { goods, uploadGoods, loadPublish, deletePublish };

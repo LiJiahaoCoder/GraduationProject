@@ -20,7 +20,7 @@ let date = new Date(Date.now());
 const TIME_LIST = [];
 let ALL_MONTH = [];
 let THIS_MONTH = [];
-for(let i = 1; i < date.getMonth() + 1; i++) {
+for(let i = 1; i < date.getMonth() + 2; i++) {
   THIS_MONTH.push({
     value: i,
     label: `${i}月`

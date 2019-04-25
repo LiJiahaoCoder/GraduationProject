@@ -2,17 +2,25 @@
  * @Author: LiJiahao 
  * @Date: 2019-03-24 10:47:52 
  * @Last Modified by: LiJiahao
- * @Last Modified time: 2019-04-17 13:34:17
+ * @Last Modified time: 2019-04-25 15:53:34
  */
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-// customize router
-const routes = require('./routes')
-const { userRouter, uploadRouter } = routes;
-
 // create express app
 const app = express();
+// work with express
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+
+// customize router
+const routes = require('./routes')
+const { userRouter, uploadRouter, goodsRouter } = routes;
+
+// socket
+io.on('connection', function(socket) {
+  console.log('user login');
+});
 
 // allow cors
 app.all('*', function(req, res, next) {
@@ -33,6 +41,7 @@ app.use(bodyParser.json());
 // use customize router
 app.use('/user', userRouter);
 app.use('/upload', uploadRouter);
+app.use('/goods', goodsRouter);
 
 // set assets access permission
 app.use('/static', express.static('public'));
@@ -45,6 +54,6 @@ app.get('/', function(req, res) {
 });
 
 // app listener at port: 8888
-app.listen(8888, function() {
+server.listen(8888, function() {
   console.log('LiJiahao\'s node server at port 8888 is starting.');
 });

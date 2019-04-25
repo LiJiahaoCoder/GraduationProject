@@ -2,7 +2,7 @@
  * @Author: LiJiahao 
  * @Date: 2019-03-24 15:37:17 
  * @Last Modified by: LiJiahao
- * @Last Modified time: 2019-04-22 10:46:43
+ * @Last Modified time: 2019-04-25 17:35:47
  */
 /*
  * Map sql to nosql
@@ -57,16 +57,26 @@ const models = {
     'newLevel': {type: String},
     'images': {type: Array},
     'introduction': {type: String},
-    'owner': {type: String} // mail
+    'owner': {type: String}, // mail
+    'status': {type: String, default: '未出售'}
   },
   order: {
     'goodsId': {type: mongoose.Schema.Types.ObjectId},
     'status': {type: String},
     'buyer': {type: String},  // mail
+    'from': {type: String}, // 发货地址
+    'to': {type: String}, // 发货目的地
     'comment': {type: String},
     'score': {type: Number},
     'expressNumber': {type: Number},
     'type': {type: Number}  // 0:出售,1:购买
+  },
+  chat: {
+    'chatId': {type: String, require: true},
+    'from': {type: String, require: true},
+    'to': {type: String, require: true},
+    'content': {type: String, default: ''},
+    'sendTime': {type: Date, default: new Date().getTime()}
   }
 };
 // create models

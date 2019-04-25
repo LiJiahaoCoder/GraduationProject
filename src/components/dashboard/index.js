@@ -4,15 +4,11 @@ import { Route, Switch } from 'react-router-dom';
 import NavLinkBar from '../navLinkBar';
 import Me from '../../containers/me';
 import Category from '../category';
+import Chat from '../../containers/chat';
 
 function Home() {
   return (
     <h1>This is Home Page.</h1>
-  );
-}
-function Msg() {
-  return (
-    <h1>This is Msg Page.</h1>
   );
 }
 function Cart() {
@@ -43,10 +39,10 @@ class Dashboard extends Component {
         component: Cart,
       },
       {
-        path: '/msg',
+        path: '/chat',
         text: '消息',
         icon: 'msg',
-        component: Msg,
+        component: Chat,
       },
       {
         path: '/me',
