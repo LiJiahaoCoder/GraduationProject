@@ -152,6 +152,19 @@ body {
   height: auto;
 }
 
+/* home */
+.am-search {
+  border-bottom: 1px solid #ddd;
+}
+
+.am-carousel {
+  z-index: 1;
+}
+
+.am-grid, .am-grid-square, .am-grid-line {
+  z-index: 1;
+}
+
 /* me */
 .recharge-card {
   background-color: #aceacf;

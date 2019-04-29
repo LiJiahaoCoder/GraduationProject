@@ -21,11 +21,9 @@ class PublishList extends Component {
     this.handleDelete = this.handleDelete.bind(this);
   }
 
-  componentDidUpdate(prevProps) {
-    if(this.props.user.mail !== prevProps.user.mail) {
-      const {mail} = this.props.user;
-      this.props.loadPublish({mail});
-    }
+  componentDidMount() {
+    const {mail} = this.props.user;
+    this.props.loadPublish({mail});
   }
 
   handlePress() {

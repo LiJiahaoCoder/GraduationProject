@@ -5,12 +5,8 @@ import NavLinkBar from '../navLinkBar';
 import Me from '../../containers/me';
 import Category from '../category';
 import Chat from '../../containers/chat';
+import Home from '../../containers/home';
 
-function Home() {
-  return (
-    <h1>This is Home Page.</h1>
-  );
-}
 function Cart() {
   return (
     <h1>This is Cart Page.</h1>

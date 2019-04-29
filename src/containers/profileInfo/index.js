@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 // components
 import NavBarHeader from '../../components/navbarHeader';
 // reducer
-import { uploadImage } from '../../redux/user.redux';
+import { uploadImage, updateInfo } from '../../redux/user.redux';
 import { AVATAR_PATH } from '../../path';
 
 const Item = List.Item;
@@ -13,7 +13,7 @@ const prompt = Modal.prompt;
 
 @connect(
   state => state.user,
-  {uploadImage}
+  {uploadImage, updateInfo}
 )
 class ProfileInfo extends Component {
   constructor(props) {

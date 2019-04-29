@@ -31,4 +31,18 @@ Router.post('/deletepublish', function(req, res) {
   });
 });
 
+Router.get('/loadbypage', function(req, res) {
+  const {page, itemNum} = req.query;
+  Goods.find({status: '未出售'}, filter)
+    .skip(page * itemNum)
+    .limit(Number(itemNum))
+    .sort({_id: -1})
+    .exec(function(err, doc) {
+      if(err)
+        return res.json({code: 1, msg: '后端出现了问题'});
+      if(doc)
+        return res.json({code: 0, data: doc});
+    });
+});
+
 module.exports = Router;
