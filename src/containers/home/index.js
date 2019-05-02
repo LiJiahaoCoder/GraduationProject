@@ -26,7 +26,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    this.props.loadByPage({page: 0, itemNum: 60});
+    this.props.loadByPage({page: 0, itemNum: 24});
     // console.log(this.props);
     this.setState({
       carouselData: ['AiyWuByWklrrUDlFignR', 'TekJlZRVCjLFexlOCuWn', 'IJOtIlfsYdTyaDTRVrLI'],
@@ -56,7 +56,13 @@ class Home extends Component {
 
   render() {
     return (
-      <div>
+      <div
+        style={{
+          height: '93vh',
+          overflow: 'auto',
+          position: 'relative'
+        }}
+      >
         <SearchBar
           value={this.state.searchValue}
           placeholder='搜索'
@@ -98,7 +104,17 @@ class Home extends Component {
             >
               <img src={dataItem.icon} style={{ width: '75px', height: '75px' }} alt='' />
               <div style={{ color: '#888', fontSize: '14px', marginTop: '12px' }}>
-                <span>{dataItem.text}</span>
+                <span
+                  style={{
+                    display: 'inline-block',
+                    width: '100px',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap'
+                  }}
+                >
+                  {dataItem.text}
+                </span>
               </div>
             </div>
           )}

@@ -6,6 +6,8 @@ const REFIND_SEND_MAIL_SUCCESS = 'REFIND_SEND_MAIL_SUCCESS';
 const REFIND_ENSURE_CODE = 'REFIND_ENSURE_CODE';
 const UPDATE_SUCCESS = 'UPDATE_SUCCESS';
 const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
+const ADD_FAVORITE = 'ADD_FAVORITE';
+const REMOVE_FAVORITE = 'REMOVE_FAVORITE';
 const LOAD_DATA = 'LOAD_DATA';
 
 const initState = {
@@ -19,6 +21,10 @@ export const user = (state = initState, action) => {
   switch (action.type) {
     case AUTH_SUCCESS:
       return {...state,isAuth: true, msg: '', ...action.payload};
+    case ADD_FAVORITE:
+      return {...state, ...action.payload};
+    case REMOVE_FAVORITE:
+      return {...state, ...action.payload};
     case REFIND_SEND_MAIL_SUCCESS:
       return {...state, sentReset: true, ...action.payload};
     case REFIND_ENSURE_CODE:
@@ -26,7 +32,7 @@ export const user = (state = initState, action) => {
     case UPDATE_SUCCESS:
       return {...state, isUpdate: true, ...action.payload};
     case UPLOAD_SUCCESS:
-      return {...state, isUpload: true, ...action.paload};
+      return {...state, isUpload: true, ...action.payload};
     case LOAD_DATA:
       return {...state,isAuth: true, ...action.payload};
     default:
@@ -65,6 +71,34 @@ function register({account, password, gender, mail, phoneNumber}) {
           }
         }
       );
+  }
+}
+
+function addFavorite({mail, _id}) {
+  return dispatch => {
+    Axios.post('/user/addfavorite', {mail, _id})
+      .then(res => {
+        if(res.status === 200 && res.data.code === 0) {
+          Toast.info('收藏成功', 1.5);
+          dispatch(addFavoriteSuccess(res.data.data));
+        } else {
+          Toast.info('后端出错啦', 1.5);
+        }
+      });
+  }
+}
+
+function removeFavorite({mail, _id}) {
+  return dispatch => {
+    Axios.post('/user/removefavorite', {mail, _id})
+      .then(res => {
+        if(res.status === 200 && res.data.code === 0) {
+          Toast.info('取消收藏', 1.5);
+          dispatch(removeFavoriteSuccess(res.data.data));
+        } else {
+          Toast.info('后端出错啦', 1.5);
+        }
+      });
   }
 }
 
@@ -114,7 +148,7 @@ function updateInfo(obj) {
 
 // upload image
 function uploadImage(obj) {
-  const {fd, avatar, ...tmp} = obj;
+  const {fd, avatar} = obj;
   return dispatch => {
     if(avatar) {
     // 如果是上传头像
@@ -138,6 +172,14 @@ function authSuccess(obj) {
   return {type: AUTH_SUCCESS, payload: data};
 }
 
+function removeFavoriteSuccess({favorite}) {
+  return {type: ADD_FAVORITE, payload: {favorite}};
+}
+
+function addFavoriteSuccess({favorite}) {
+  return {type: ADD_FAVORITE, payload: {favorite}};
+}
+
 function refindSendMailSuccess(mail) {
   return {type: REFIND_SEND_MAIL_SUCCESS, payload: mail};
 }
@@ -151,11 +193,21 @@ function updateSuccess(data) {
 }
 
 function uploadSuccess(obj) {
-  return {type: UPLOAD_SUCCESS, paload: obj};
+  return {type: UPLOAD_SUCCESS, payload: obj};
 }
 
 function loadData(userInfo) {
   return {type: LOAD_DATA, payload: userInfo};
 }
 
-export { login, register, refindSendMail, refindEnsureCode, updateInfo, loadData, uploadImage };
+export {
+  login,
+  register,
+  refindSendMail,
+  refindEnsureCode,
+  updateInfo,
+  loadData,
+  uploadImage,
+  addFavorite,
+  removeFavorite
+};

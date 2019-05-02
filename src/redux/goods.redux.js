@@ -16,7 +16,7 @@ const goods = (state = initialState, action) => {
     case UPLOAD_SUCCESS:
       return {...state, isUpload: true, ...action.payload};
     case DELETE_PUBLISH:
-      return {...state, ...action.payload};
+      return {...state, isDelete: true, ...action.payload};
     case LOAD_PUBLISH:
       return {...state, ...action.payload};
     case LOAD_BY_PAGE:
@@ -40,6 +40,11 @@ function loadByPage(obj) {
   }
 }
 
+/**
+ *
+ * @description 删除上传商品
+ * @param {*} obj obj中传入mail和_id即可
+ */
 function deletePublish(obj) {
   const {mail, _id} = obj;
   return dispatch => {
@@ -50,7 +55,7 @@ function deletePublish(obj) {
           Toast.info('成功', 1.5);
           setTimeout(
             () => dispatch(deletePublishSuccess(data.reverse())),
-            1000
+            800
           );
         }
       });

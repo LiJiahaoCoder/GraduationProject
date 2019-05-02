@@ -2,7 +2,7 @@
  * @Author: LiJiahao 
  * @Date: 2019-03-24 15:37:06 
  * @Last Modified by: LiJiahao
- * @Last Modified time: 2019-04-21 10:31:33
+ * @Last Modified time: 2019-05-02 18:03:57
  */
 const express = require('express');
 const utils = require('utility');
@@ -80,6 +80,27 @@ Router.post('/register', function(req, res) {
         return res.json({code: 0,msg: '注册成功', data: {account, _id}}); */
       });
     });
+  });
+});
+
+// user add/remove goods to favorite list
+Router.post('/addfavorite', function(req, res) {
+  const {mail, _id} = req.body;
+  User.findOne({mail}, function(err, doc) {
+    if(doc)
+      doc.favorite = doc.favorite.concat({goodsId: _id});
+    doc.save();
+    return res.json({code: 0, data: doc});
+  });
+});
+
+Router.post('/removefavorite', function(req, res) {
+  const {mail, _id} = req.body;
+  User.findOne({mail}, function(err, doc) {
+    if(doc)
+      doc.favorite.splice(doc.favorite.indexOf(_id), 1);
+    doc.save();
+    return res.json({code: 0, data: doc});
   });
 });
 
