@@ -7,7 +7,6 @@ function NavBarHeader(props) {
 
   return (
     <NavBar
-      mode='dark'
       icon={<Icon type='left' />}
       leftContent='返回'
       onLeftClick={()=>{props.history.goBack();}}

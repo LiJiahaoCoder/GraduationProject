@@ -38,7 +38,12 @@ class PublishList extends Component {
 
   render() {
     return (
-      <div>
+      <div
+        style={{
+          height: '100vh',
+          overflow: 'auto'
+        }}
+      >
         <NavBarHeader title={listTitle[getTitle(this.props.match.url)]} />
         <WhiteSpace />
         <WingBlank size='sm'>

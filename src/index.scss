@@ -283,6 +283,12 @@ body {
   box-shadow: .05em .1em .2em rgba(0,0,0,.6) inset;
 }
 
+.am-card-body {
+  div {
+    overflow: hidden;
+  }
+}
+
 /* category */
 .am-grid, .am-grid-square, .am-grid-line {
   width: 100%;
@@ -293,4 +299,9 @@ body {
   font-weight: bold;
   font-size: 14px;
   padding: 15px 0 9px 15px;
+}
+
+/* goodsInfo */
+.am-list-item, .am-textarea-item {
+  padding-right: 15px;
 }

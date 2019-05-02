@@ -16,7 +16,9 @@ class Home extends Component {
     this.state = {
       searchValue: '',
       carouselData: [1, 2, 3],
-      goodsItems: []
+      goodsItems: [],
+      imgHeight: 176
+      
     };
 
     this.onSearchChange = this.onSearchChange.bind(this);
@@ -62,19 +64,24 @@ class Home extends Component {
           onChange={this.onSearchChange}
         />
         <Carousel
-          autoplay={true}
-          infinite={true}
+          autoplay
+          infinite
         >
           {this.state.carouselData.map(val => (
             <a
               key={val}
               href="http://www.alipay.com"
-              style={{ display: 'inline-block', width: '100%', height: 'auto' }}
+              style={{ display: 'inline-block', width: '100%', height: this.state.imgHeight }}
             >
               <img
                 src={`https://zos.alipayobjects.com/rmsportal/${val}.png`}
                 alt=""
                 style={{ width: '100%', verticalAlign: 'top' }}
+                onLoad={() => {
+                  // fire window resize event to change height
+                  window.dispatchEvent(new Event('resize'));
+                  this.setState({ imgHeight: 'auto' });
+                }}
               />
             </a>
           ))}
@@ -85,10 +92,11 @@ class Home extends Component {
           columnNum={3}
           renderItem={dataItem => (
             <div
+              key={dataItem.id}
               style={{ padding: '12.5px', zIndex: 1 }}
               onClick={() => this.handleClick(dataItem.id)}
             >
-              <img src={dataItem.icon} style={{ width: '75px', height: '75px' }} alt="" />
+              <img src={dataItem.icon} style={{ width: '75px', height: '75px' }} alt='' />
               <div style={{ color: '#888', fontSize: '14px', marginTop: '12px' }}>
                 <span>{dataItem.text}</span>
               </div>
