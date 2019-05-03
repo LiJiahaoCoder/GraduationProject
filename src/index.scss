@@ -68,11 +68,13 @@ body {
   color: red;
 }
 
-.my-radio .am-radio {
-  padding: 2.5px;
-  border: 1px solid #ccc;
-  border-radius: 50%;
-  margin-right: 5px;
+.my-radio  {
+  .am-radio {
+    padding: 2.5px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    margin-right: 5px;
+  }
 }
 
 .my-radio {
@@ -165,6 +167,13 @@ body {
   z-index: 1;
 }
 
+.am-card-header-content {
+  width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /* me */
 .recharge-card {
   background-color: #aceacf;
@@ -183,12 +192,16 @@ body {
   box-shadow: .05em .1em .2em rgba(0,0,0,.6) inset;
 }
 
-.me-list .am-list-extra {
-  flex-basis: initial;
+.me-list {
+  .am-list-extra {
+    flex-basis: initial;
+  }
 }
 
-.me-list .am-list-item {
-  min-height: 3rem;
+.me-list {
+  .am-list-item {
+    min-height: 3rem;
+  }
 }
 
 .am-image-picker-list .am-image-picker-item .am-image-picker-item-remove {
@@ -225,7 +238,7 @@ body {
 
 /* me list */
 // id vertify
-.am-card-header-content>img {
+.am-card-header-content > img {
   width: 32px;
   height: 32px;
 }
@@ -304,4 +317,12 @@ body {
 /* goodsInfo */
 .am-list-item, .am-textarea-item {
   padding-right: 15px;
+}
+
+/* about */
+.about-list {
+  padding: 0 30px;
+  li {
+    height: 30px;
+  }
 }

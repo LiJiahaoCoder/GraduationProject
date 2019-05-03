@@ -4,6 +4,8 @@ import { Toast } from 'antd-mobile';
 const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
 const LOAD_PUBLISH = 'LOAD_PUBLISH';
 const DELETE_PUBLISH = 'DELETE_PUBLISH';
+const GET_FAVORITE = 'GET_FAVORITE';
+const LOAD_BY_TYPE = 'LOAD_BY_TYPE';
 const LOAD_BY_PAGE = 'LOAD_BY_PAGE';
 
 const initialState = {
@@ -19,10 +21,46 @@ const goods = (state = initialState, action) => {
       return {...state, isDelete: true, ...action.payload};
     case LOAD_PUBLISH:
       return {...state, ...action.payload};
+    case GET_FAVORITE:
+      return {...state, ...action.payload};
+    case LOAD_BY_TYPE:
+      return {...state, ...action.payload};
     case LOAD_BY_PAGE:
       return {...state, ...action.payload};
     default:
       return state;
+  }
+}
+
+function getFavorite(favorite) {
+  // 处理数据
+  let option = favorite.reduce((acc, cur)=>{
+    acc.push({_id: cur.goodsId});
+    return acc;
+  }, []);
+
+  return dispatch => {
+    Axios.post('/goods/getfavorite', {option})
+      .then(res => {
+        if(res.status === 200 && res.data.code === 0) {
+          dispatch(getFavoriteSuccess(res.data.data));
+        } else {
+          Toast.info('加载商品失败', 1.5);
+        }
+      });
+  }
+}
+
+function loadByType({type, page, itemNum}) {
+  return dispatch => {
+    Axios.get('/goods/loadbytype', {params: {type, page, itemNum}})
+      .then(res => {
+        if(res.status === 200 && res.data.code === 0) {
+          dispatch(loadByTypeSuccess(res.data.data));
+        } else {
+          Toast.info('加载商品失败', 1.5);
+        }
+      });
   }
 }
 
@@ -104,6 +142,14 @@ function uploadGoods(obj) {
 }
 
 // action creator
+function getFavoriteSuccess(obj) {
+  return {type: GET_FAVORITE, payload: {goodsList: obj}};
+}
+
+function loadByTypeSuccess(obj) {
+  return {type: LOAD_BY_TYPE, payload: {goodsList: obj}};
+}
+
 function loadByPageSuccess(obj) {
   return {type: LOAD_BY_PAGE, payload: {goodsList: obj}};
 }
@@ -120,4 +166,12 @@ function uploadSuccess(obj) {
   return {type: UPLOAD_SUCCESS, payload: {goodsList: obj}};
 }
 
-export { goods, uploadGoods, loadPublish, deletePublish, loadByPage };
+export {
+  goods,
+  uploadGoods,
+  loadPublish,
+  deletePublish,
+  loadByPage,
+  loadByType,
+  getFavorite
+};
