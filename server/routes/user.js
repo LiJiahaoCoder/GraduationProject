@@ -2,7 +2,7 @@
  * @Author: LiJiahao 
  * @Date: 2019-03-24 15:37:06 
  * @Last Modified by: LiJiahao
- * @Last Modified time: 2019-05-02 18:03:57
+ * @Last Modified time: 2019-05-04 18:35:03
  */
 const express = require('express');
 const utils = require('utility');
@@ -83,12 +83,22 @@ Router.post('/register', function(req, res) {
   });
 });
 
-// user add/remove goods to favorite list
+// user add/remove goods to favorite/cart list
 Router.post('/addfavorite', function(req, res) {
   const {mail, _id} = req.body;
   User.findOne({mail}, function(err, doc) {
     if(doc)
       doc.favorite = doc.favorite.concat({goodsId: _id});
+    doc.save();
+    return res.json({code: 0, data: doc});
+  });
+});
+
+Router.post('/addtocart', function(req, res) {
+  const {mail, _id} = req.body;
+  User.findOne({mail}, function(err, doc) {
+    if(doc)
+      doc.cart = doc.cart.concat({goodsId: _id});
     doc.save();
     return res.json({code: 0, data: doc});
   });

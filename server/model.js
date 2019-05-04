@@ -2,7 +2,7 @@
  * @Author: LiJiahao 
  * @Date: 2019-03-24 15:37:17 
  * @Last Modified by: LiJiahao
- * @Last Modified time: 2019-05-02 12:03:39
+ * @Last Modified time: 2019-05-04 11:19:35
  */
 /*
  * Map sql to nosql
@@ -43,7 +43,8 @@ const models = {
     'bankCard': [{'number': Number}],
     'stars': {type: Number, default: 0},  // virtual coin on plateform
     'experience': {type: Number, default: 0}, // buy/sale goods will increase experience
-    'favorite': {type: [{'goodsId': mongoose.Schema.Types.ObjectId}], default: []},
+    'favorite': [{'goodsId': mongoose.Schema.Types.ObjectId}],
+    'cart':[{'goodsId': mongoose.Schema.Types.ObjectId}],
     // optional information
     'avatar': {type: String, default: `avatar.default.${Math.ceil(Math.random() * 6)}.png`},
     'nickname': {type: String, default: Math.random().toString(36).substr(2, 6)},

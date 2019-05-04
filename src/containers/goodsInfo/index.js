@@ -13,13 +13,13 @@ import {
 
 import {GOODS_PATH, ICON_PATH} from '../../path';
 import {deletePublish} from '../../redux/goods.redux';
-import {addFavorite, removeFavorite} from '../../redux/user.redux';
+import {addFavorite, removeFavorite, addToCart} from '../../redux/user.redux';
 
 const alert = Modal.alert;
 
 @connect(
   state => state,
-  {deletePublish, addFavorite, removeFavorite}
+  {deletePublish, addFavorite, removeFavorite, addToCart}
 )
 class GoodsInfo extends Component {
   constructor(props) {
@@ -33,6 +33,7 @@ class GoodsInfo extends Component {
     this.handleDelete = this.handleDelete.bind(this);
     this.handleAddFavorite = this.handleAddFavorite.bind(this);
     this.handleRemoveFavorite = this.handleRemoveFavorite.bind(this);
+    this.handleAddToCart = this.handleAddToCart.bind(this);
   }
 
   componentDidMount() {
@@ -60,6 +61,12 @@ class GoodsInfo extends Component {
     const {mail} = this.props.user;
     const {_id} = this.state.goods[0];
     this.props.removeFavorite({mail, _id});
+  }
+
+  handleAddToCart() {
+    const {mail} = this.props.user;
+    const {_id} = this.state.goods[0];
+    this.props.addToCart({mail, _id});
   }
 
   render() {
@@ -215,22 +222,13 @@ class GoodsInfo extends Component {
                     <span style={{backgroundColor: '#85ef47'}}>这是自己的商品哦(✪ω✪)</span>
                   </div>
                   : 
-                  <div
-                    style={{
-                      height: '40px',
-                      display: 'grid',
-                      gridTemplateColumns: '1fr 1fr 1fr',
-                      textAlign: 'center',
-                      position: 'fixed',
-                      width: '100vw',
-                      bottom: 0,
-                      lineHeight: '40px',
-                      color: '#f2eee0',
-                      fontSize: '1rem'
-                    }}
-                  >
+                  <div className='goodsinfo-bottom-bar'>
                     <span style={{backgroundColor: '#49beb7'}}>联系卖家</span>
-                    <span style={{backgroundColor: '#fabc60'}}>加入购物车</span>
+                    {
+                      this.props.user.cart.some(v => v.goodsId === this.props.match.params.id) ?
+                      <span style={{backgroundColor: '#f3ae4b'}}>已加入购物车</span> :
+                      <span style={{backgroundColor: '#fabc60'}} onClick={this.handleAddToCart}>加入购物车</span>
+                    }
                     <span style={{backgroundColor: '#ff5959'}}>立即购买</span>
                   </div>
               }

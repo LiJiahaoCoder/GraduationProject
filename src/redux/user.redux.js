@@ -7,6 +7,7 @@ const REFIND_ENSURE_CODE = 'REFIND_ENSURE_CODE';
 const UPDATE_SUCCESS = 'UPDATE_SUCCESS';
 const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
 const ADD_FAVORITE = 'ADD_FAVORITE';
+const ADD_CART = 'ADD_CART';
 const REMOVE_FAVORITE = 'REMOVE_FAVORITE';
 const LOAD_DATA = 'LOAD_DATA';
 
@@ -20,8 +21,10 @@ const initState = {
 export const user = (state = initState, action) => {
   switch (action.type) {
     case AUTH_SUCCESS:
-      return {...state,isAuth: true, msg: '', ...action.payload};
+      return {...state, isAuth: true, msg: '', ...action.payload};
     case ADD_FAVORITE:
+      return {...state, ...action.payload};
+    case ADD_CART:
       return {...state, ...action.payload};
     case REMOVE_FAVORITE:
       return {...state, ...action.payload};
@@ -81,6 +84,20 @@ function addFavorite({mail, _id}) {
         if(res.status === 200 && res.data.code === 0) {
           Toast.info('收藏成功', 1.5);
           dispatch(addFavoriteSuccess(res.data.data));
+        } else {
+          Toast.info('后端出错啦', 1.5);
+        }
+      });
+  }
+}
+
+function addToCart({mail, _id}) {
+  return dispatch => {
+    Axios.post('/user/addtocart', {mail, _id})
+      .then(res => {
+        if(res.status === 200 && res.data.code === 0) {
+          Toast.info('添加购物车成功', 1.5);
+          dispatch(addToCartSuccess(res.data.data));
         } else {
           Toast.info('后端出错啦', 1.5);
         }
@@ -180,6 +197,10 @@ function addFavoriteSuccess({favorite}) {
   return {type: ADD_FAVORITE, payload: {favorite}};
 }
 
+function addToCartSuccess({cart}) {
+  return {type: ADD_CART, payload: {cart}};
+}
+
 function refindSendMailSuccess(mail) {
   return {type: REFIND_SEND_MAIL_SUCCESS, payload: mail};
 }
@@ -209,5 +230,6 @@ export {
   loadData,
   uploadImage,
   addFavorite,
-  removeFavorite
+  removeFavorite,
+  addToCart
 };

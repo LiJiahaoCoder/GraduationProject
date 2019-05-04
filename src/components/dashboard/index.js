@@ -4,14 +4,9 @@ import { Route, Switch } from 'react-router-dom';
 import NavLinkBar from '../navLinkBar';
 import Me from '../../containers/me';
 import Category from '../category';
+import Cart from '../../containers/cart';
 import Chat from '../../containers/chat';
 import Home from '../../containers/home';
-
-function Cart() {
-  return (
-    <h1>This is Cart Page.</h1>
-  );
-}
 
 class Dashboard extends Component {
   render() {

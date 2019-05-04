@@ -3,7 +3,6 @@ import {
   WhiteSpace,
   WingBlank,
   Card,
-  Icon,
   Modal
 } from 'antd-mobile';
 import { connect } from 'react-redux';
@@ -25,6 +24,7 @@ class Favorite extends Component {
     super(props);
 
     this.handleRemoveFavorite = this.handleRemoveFavorite.bind(this);
+    this.toGoodsInfo = this.toGoodsInfo.bind(this);
   }
 
   componentDidMount() {
@@ -35,6 +35,10 @@ class Favorite extends Component {
     const {mail} = this.props.user;
     const {_id} = v;
     this.props.removeFavorite({mail, _id});
+  }
+
+  toGoodsInfo(id) {
+    this.props.history.push(`/goodsinfo/${id}`);
   }
 
   render() {
@@ -54,11 +58,14 @@ class Favorite extends Component {
               <React.Fragment key={v.name}>
                 <Card>
                   <Card.Header
+                    onClick={() => this.toGoodsInfo(v._id)}
                     title={v.name}
                     thumb={v.images[0]?`${GOODS_PATH}${v.images[0]}`:null}
                     extra={<span>购入时间：{v.boughtTime}</span>}
                   />
-                  <Card.Body>
+                  <Card.Body
+                    onClick={() => this.toGoodsInfo(v._id)}
+                  >
                     <div>{v.introduction}</div>
                   </Card.Body>
                   <Card.Footer
