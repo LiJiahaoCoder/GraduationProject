@@ -345,6 +345,16 @@ const TABS = [
       {
         content: [
           {
+            icon: `${ICON_PATH}books.svg`,
+            text: '书',
+            path: 'books'
+          },
+          {
+            icon: `${ICON_PATH}sports.svg`,
+            text: '运动用品',
+            path: 'sports'
+          },
+          {
             icon: `${ICON_PATH}printer.svg`,
             text: '打印机',
             path: 'printer'

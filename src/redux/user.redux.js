@@ -8,6 +8,7 @@ const UPDATE_SUCCESS = 'UPDATE_SUCCESS';
 const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
 const ADD_FAVORITE = 'ADD_FAVORITE';
 const ADD_CART = 'ADD_CART';
+const REMOVE_CART = 'REMOVE_CART';
 const REMOVE_FAVORITE = 'REMOVE_FAVORITE';
 const LOAD_DATA = 'LOAD_DATA';
 
@@ -25,6 +26,8 @@ export const user = (state = initState, action) => {
     case ADD_FAVORITE:
       return {...state, ...action.payload};
     case ADD_CART:
+      return {...state, ...action.payload};
+    case REMOVE_CART:
       return {...state, ...action.payload};
     case REMOVE_FAVORITE:
       return {...state, ...action.payload};
@@ -98,6 +101,20 @@ function addToCart({mail, _id}) {
         if(res.status === 200 && res.data.code === 0) {
           Toast.info('添加购物车成功', 1.5);
           dispatch(addToCartSuccess(res.data.data));
+        } else {
+          Toast.info('后端出错啦', 1.5);
+        }
+      });
+  }
+}
+
+function removeCart({mail, _id}) {
+  return dispatch => {
+    Axios.post('/user/removecart', {mail, _id})
+      .then(res => {
+        if(res.status === 200 && res.data.code === 0) {
+          Toast.info('删除商品成功', 1.5);
+          dispatch(removeCartSuccess(res.data.data));
         } else {
           Toast.info('后端出错啦', 1.5);
         }
@@ -193,6 +210,10 @@ function removeFavoriteSuccess({favorite}) {
   return {type: ADD_FAVORITE, payload: {favorite}};
 }
 
+function removeCartSuccess({cart}) {
+  return {type: REMOVE_CART, payload: {cart}};
+}
+
 function addFavoriteSuccess({favorite}) {
   return {type: ADD_FAVORITE, payload: {favorite}};
 }
@@ -231,5 +252,6 @@ export {
   uploadImage,
   addFavorite,
   removeFavorite,
-  addToCart
+  addToCart,
+  removeCart
 };

@@ -39,6 +39,13 @@ Router.post('/getfavorite', function(req, res) {
   });
 });
 
+Router.post('/getcart', function(req, res) {
+  let {option} = req.body;
+  Goods.find({'$or': option}, filter, function(err, doc) {
+    return res.json({code: 0, data: doc});
+  });
+});
+
 Router.get('/loadbytype', function(req, res) {
   const {type, page, itemNum} = req.query;
   Goods.find({status: '未出售', type: type}, filter)

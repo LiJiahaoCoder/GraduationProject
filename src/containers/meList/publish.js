@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 import {
   InputItem,
   WhiteSpace,
@@ -309,6 +308,14 @@ const TYPE_LIST = [
     label: '生活用品',
     children: [
       {
+        value: '书',
+        label: '书'
+      },
+      {
+        value: '运动用品',
+        label: '运动用品'
+      },
+      {
         value: '打印机',
         label: '打印机'
       },
@@ -366,7 +373,7 @@ class Publish extends Component {
     });
     this.setState({mail: this.props.user.mail});
   }
-
+ 
   onImageChange(files) {
     // console.log('----- enter onChange function -----');
     // console.log(files);
@@ -375,10 +382,15 @@ class Publish extends Component {
 
   handlePublish() {
     this.props.uploadGoods(this.state);
-    setTimeout(() => {
-      if(this.props.goods.isUpload)
-        this.props.history.goBack();
-    }, 500);
+    setTimeout(
+      () => {
+        if(this.props.goods.isUpload) {
+          this.props.history.goBack();
+        }
+        // console.log(this.props);
+      },
+      800
+    );
   }
 
   render() {

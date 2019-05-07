@@ -28,7 +28,8 @@ class Favorite extends Component {
   }
 
   componentDidMount() {
-    this.props.getFavorite(this.props.user.favorite);
+    if(this.props.user.favorite[0])
+      this.props.getFavorite(this.props.user.favorite);
   }
 
   handleRemoveFavorite(v) {

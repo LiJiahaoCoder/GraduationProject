@@ -2,7 +2,7 @@
  * @Author: LiJiahao 
  * @Date: 2019-03-24 15:37:06 
  * @Last Modified by: LiJiahao
- * @Last Modified time: 2019-05-04 18:35:03
+ * @Last Modified time: 2019-05-07 22:19:16
  */
 const express = require('express');
 const utils = require('utility');
@@ -99,6 +99,16 @@ Router.post('/addtocart', function(req, res) {
   User.findOne({mail}, function(err, doc) {
     if(doc)
       doc.cart = doc.cart.concat({goodsId: _id});
+    doc.save();
+    return res.json({code: 0, data: doc});
+  });
+});
+
+Router.post('/removecart', function(req, res) {
+  const {mail, _id} = req.body;
+  User.findOne({mail}, function(err, doc) {
+    if(doc)
+      doc.cart.splice(doc.favorite.indexOf(_id), 1);
     doc.save();
     return res.json({code: 0, data: doc});
   });

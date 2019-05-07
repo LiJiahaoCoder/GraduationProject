@@ -5,6 +5,7 @@ const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
 const LOAD_PUBLISH = 'LOAD_PUBLISH';
 const DELETE_PUBLISH = 'DELETE_PUBLISH';
 const GET_FAVORITE = 'GET_FAVORITE';
+const GET_CART = 'GET_CART';
 const LOAD_BY_TYPE = 'LOAD_BY_TYPE';
 const LOAD_BY_PAGE = 'LOAD_BY_PAGE';
 
@@ -16,12 +17,14 @@ const initialState = {
 const goods = (state = initialState, action) => {
   switch (action.type) {
     case UPLOAD_SUCCESS:
-      return {...state, isUpload: true, ...action.payload};
+      return {...state, ...action.payload};
     case DELETE_PUBLISH:
       return {...state, isDelete: true, ...action.payload};
     case LOAD_PUBLISH:
       return {...state, ...action.payload};
     case GET_FAVORITE:
+      return {...state, ...action.payload};
+    case GET_CART:
       return {...state, ...action.payload};
     case LOAD_BY_TYPE:
       return {...state, ...action.payload};
@@ -46,6 +49,25 @@ function getFavorite(favorite) {
           dispatch(getFavoriteSuccess(res.data.data));
         } else {
           Toast.info('加载商品失败', 1.5);
+        }
+      });
+  }
+}
+
+function getCart(cart) {
+  // 处理数据
+  let option = cart.reduce((acc, cur)=>{
+    acc.push({_id: cur.goodsId});
+    return acc;
+  }, []);
+
+  return dispatch => {
+    Axios.post('/goods/getcart', {option})
+      .then(res => {
+        if(res.status === 200 && res.data.code === 0) {
+          dispatch(getCartSuccess(res.data.data));
+        } else {
+          Toast.info('加载购物车失败', 1.5);
         }
       });
   }
@@ -134,8 +156,12 @@ function uploadGoods(obj) {
     Axios.post('/upload/goods', fd)
       .then(res => {
         if(res.status === 200 && res.data.isUpload === 0) {
+          const tmp = res.data.data
           Toast.info('成功', 1.5);
-          dispatch(uploadSuccess(res.data.data));
+          dispatch(uploadSuccess({tmp, isUpload: true}));
+        } else {
+          Toast.info('上传失败', 1.5);
+          dispatch(uploadSuccess({isUpload: false}));
         }
       });
   }
@@ -144,6 +170,10 @@ function uploadGoods(obj) {
 // action creator
 function getFavoriteSuccess(obj) {
   return {type: GET_FAVORITE, payload: {goodsList: obj}};
+}
+
+function getCartSuccess(obj) {
+  return {type: GET_CART, payload: {goodsList: obj}};
 }
 
 function loadByTypeSuccess(obj) {
@@ -163,7 +193,8 @@ function loadPublishSuccess(obj) {
 }
 
 function uploadSuccess(obj) {
-  return {type: UPLOAD_SUCCESS, payload: {goodsList: obj}};
+  const {isUpload, tmp} = obj;
+  return {type: UPLOAD_SUCCESS, payload: {isUpload, goodsList: tmp}};
 }
 
 export {
@@ -173,5 +204,6 @@ export {
   deletePublish,
   loadByPage,
   loadByType,
-  getFavorite
+  getFavorite,
+  getCart
 };

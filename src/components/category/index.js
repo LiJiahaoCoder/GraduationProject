@@ -19,15 +19,14 @@ class Category extends Component {
 
   render() {
     return (
-      <div style={{ height: '90vh', position: 'relative', zIndex: 1 }}>
-        <WhiteSpace />
+      <div style={{ height: '92vh', position: 'relative', zIndex: 1 }}>
         <Tabs tabs={TABS}
           tabBarPosition='left'
           tabDirection='vertical'
         >
           {
             TABS.map(v => 
-              <div key={v.title} style={{ justifyContent: 'center', height: '90vh', backgroundColor: '#fff', overflow: 'auto' }}>
+              <div key={v.title} style={{ justifyContent: 'center', height: '92vh', backgroundColor: '#fff', overflow: 'auto' }}>
                 {
                   v.content.map(t => 
                     <React.Fragment key={`${t.key}-frag`}>
