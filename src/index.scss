@@ -7,6 +7,11 @@ body {
   background-color: #ffffff;
 }
 
+/* hidden block bar */
+body>div#blockbyte-bs-indicator[data-pos='right'] {
+  display: none;
+}
+
 /* logo */
 .title-container {
   padding-top: .625rem;
@@ -341,4 +346,9 @@ body {
   li {
     height: 30px;
   }
+}
+
+/* cart */
+.cart-button:active {
+  box-shadow: -0.05em -0.1em .2em rgba(0,0,0,.6) inset;
 }

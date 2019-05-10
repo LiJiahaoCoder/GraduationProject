@@ -10,7 +10,10 @@ const LOAD_BY_TYPE = 'LOAD_BY_TYPE';
 const LOAD_BY_PAGE = 'LOAD_BY_PAGE';
 
 const initialState = {
-  goodsList: []
+  goodsList: [],
+  favorite: [],
+  cart: [],
+  publish: []
 };
 
 // reducer
@@ -169,11 +172,11 @@ function uploadGoods(obj) {
 
 // action creator
 function getFavoriteSuccess(obj) {
-  return {type: GET_FAVORITE, payload: {goodsList: obj}};
+  return {type: GET_FAVORITE, payload: {favorite: obj}};
 }
 
 function getCartSuccess(obj) {
-  return {type: GET_CART, payload: {goodsList: obj}};
+  return {type: GET_CART, payload: {cart: obj}};
 }
 
 function loadByTypeSuccess(obj) {
@@ -185,16 +188,16 @@ function loadByPageSuccess(obj) {
 }
 
 function deletePublishSuccess(obj) {
-  return {type: DELETE_PUBLISH, payload: {goodsList: obj}};
+  return {type: DELETE_PUBLISH, payload: {publish: obj}};
 }
 
 function loadPublishSuccess(obj) {
-  return {type: LOAD_PUBLISH, payload: {goodsList: obj}};
+  return {type: LOAD_PUBLISH, payload: {publish: obj}};
 }
 
 function uploadSuccess(obj) {
   const {isUpload, tmp} = obj;
-  return {type: UPLOAD_SUCCESS, payload: {isUpload, goodsList: tmp}};
+  return {type: UPLOAD_SUCCESS, payload: {isUpload, publish: tmp}};
 }
 
 export {

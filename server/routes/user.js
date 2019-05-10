@@ -2,7 +2,7 @@
  * @Author: LiJiahao 
  * @Date: 2019-03-24 15:37:06 
  * @Last Modified by: LiJiahao
- * @Last Modified time: 2019-05-07 22:19:16
+ * @Last Modified time: 2019-05-10 22:08:42
  */
 const express = require('express');
 const utils = require('utility');
@@ -107,8 +107,13 @@ Router.post('/addtocart', function(req, res) {
 Router.post('/removecart', function(req, res) {
   const {mail, _id} = req.body;
   User.findOne({mail}, function(err, doc) {
-    if(doc)
-      doc.cart.splice(doc.favorite.indexOf(_id), 1);
+    if(doc) {
+      doc.cart = doc.cart.reduce((acc, cur) => {
+        if(cur.goodsId.toString() !== _id)
+          acc.push(cur);
+        return acc;
+      }, []);
+    }
     doc.save();
     return res.json({code: 0, data: doc});
   });
@@ -117,8 +122,13 @@ Router.post('/removecart', function(req, res) {
 Router.post('/removefavorite', function(req, res) {
   const {mail, _id} = req.body;
   User.findOne({mail}, function(err, doc) {
-    if(doc)
-      doc.favorite.splice(doc.favorite.indexOf(_id), 1);
+    if(doc) {
+      doc.favorite = doc.favorite.reduce((acc, cur) => {
+        if(cur.goodsId.toString() !== _id)
+          acc.push(cur);
+        return acc;
+      }, []);
+    }
     doc.save();
     return res.json({code: 0, data: doc});
   });

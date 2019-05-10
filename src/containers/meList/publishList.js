@@ -48,7 +48,7 @@ class PublishList extends Component {
         <WhiteSpace />
         <WingBlank size='sm'>
           {
-            this.props.goods.goodsList.map(v => 
+            this.props.goods.publish.map(v => 
               <React.Fragment key={v.name}>
                 <Card>
                   <Card.Header

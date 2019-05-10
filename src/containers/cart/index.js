@@ -8,6 +8,7 @@ import {
   Modal,
   Checkbox
 } from 'antd-mobile';
+import { Redirect } from 'react-router-dom';
 
 import {removeCart} from '../../redux/user.redux';
 import {getCart} from '../../redux/goods.redux';
@@ -25,17 +26,29 @@ class Cart extends Component {
 
     this.state = {
       selectedNumber: 0,
-      isAllSelected: false
+      allProps: {
+        checked: false,
+        style:{color: '#444'}
+      },
+      itemProps: [],
+      totalPrice: 0
     };
 
     this.handleRemoveCart = this.handleRemoveCart.bind(this);
     this.toGoodsInfo = this.toGoodsInfo.bind(this);
-    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+    // this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+    this.handleAllClick = this.handleAllClick.bind(this);
+    this.handleItemClick = this.handleItemClick.bind(this);
   }
 
   componentDidMount() {
-    if(this.props.user.cart[0])
-      this.props.getCart(this.props.user.cart);
+    if(this.props.user.isAuth)
+      if(this.props.user.cart[0]) {
+        this.props.getCart(this.props.user.cart);
+        this.setState({
+          itemProps: new Array(this.props.user.cart.length).fill(false)
+        })
+      }
   }
 
   handleRemoveCart(v) {
@@ -48,38 +61,107 @@ class Cart extends Component {
     this.props.history.push(`/goodsinfo/${id}`);
   }
 
-  handleCheckboxChange({target}) {
+  /* handleCheckboxChange({target}) {
     // console.log(target);
     if(target.checked) {
       this.setState({
         selectedNumber: this.state.selectedNumber + 1
       });
       if(this.state.selectedNumber + 1 === this.props.user.cart.length)
-        this.setState({isAllSelected: true});
+        this.setState({
+          allProps: {checked: true, style:{color: '#444'}},
+          isAllSelected: true
+        });
     }
     else {
       this.setState({
         selectedNumber: this.state.selectedNumber - 1
       });
-      this.setState({isAllSelected: false});
+      this.setState({
+        allProps: {checked: false, style:{color: '#444'}},
+        isAllSelected: false
+      });
     }
+  } */
+
+  handleAllClick() {
+    let allState = this.state.allProps.checked;
+    this.setState({
+      allProps: {
+        checked: !allState,
+        style:{color: '#444'}
+      },
+      selectedNumber: !allState ? this.props.user.cart.length : 0,
+      totalPrice: !allState ? 'test': 0
+    });
+
+    let price = this.props.goods.cart
+                                .filter(item => isIncludes(item._id, this.props.user.cart))
+                                .reduce((acc, cur) => {
+                                  acc += cur.price;
+                                  return acc;
+                                }, 0);
+    let tmp = this.state.itemProps.map(v => !allState);
+    this.setState({
+      itemProps: tmp,
+      totalPrice: !allState ? price: 0
+    });
+  }
+
+  handleItemClick(index) {
+    let tmp = this.state.itemProps;
+    let number = this.state.selectedNumber;
+    let list = this.props.goods.cart.filter(item => isIncludes(item._id, this.props.user.cart));
+
+    tmp[index] = !tmp[index];
+    this.setState({
+      itemProps: tmp
+    });
+    if(tmp[index]){
+      this.setState({
+        selectedNumber: ++number,
+        totalPrice: this.state.totalPrice + list[index].price
+      });
+    }
+    else {
+      this.setState({
+        selectedNumber: --number,
+        totalPrice: this.state.totalPrice - list[index].price
+      });
+    }
+    if(number === this.props.user.cart.length)
+      this.setState({
+        allProps: {
+          checked: true,
+          style:{color: '#444'}
+        }
+      });
+    else
+      this.setState({
+        allProps: {
+          checked: false,
+          style:{color: '#444'}
+        }
+      });
   }
 
   render() {
     return (
       <div
         style={{
-          height: '92vh',
+          height: '87vh',
           overflow: 'auto',
           position: 'relative',
           zIndex: 1
         }}
       >
-        <WhiteSpace />
+        {this.props.user.isAuth ?
+          <>
+          <WhiteSpace />
         <WingBlank size='sm'>
           {
             this.props.user.cart[0] ?
-            this.props.goods.goodsList.map(v => 
+            this.props.goods.cart.filter(item => isIncludes(item._id, this.props.user.cart)).map((v, index) => 
               <React.Fragment key={v.name}>
                 <Card>
                   <Card.Header
@@ -94,7 +176,11 @@ class Cart extends Component {
                     <div>{v.introduction}</div>
                   </Card.Body>
                   <Card.Footer
-                    content={<Checkbox onChange={this.handleCheckboxChange}/>
+                    content={
+                      <Checkbox
+                        checked={this.state.itemProps[index]}
+                        onClick={() => this.handleItemClick(index)}
+                      />
                     }
                     extra={<span onClick={() =>
                       alert('移除物品', '确定移除物品？', [
@@ -109,7 +195,8 @@ class Cart extends Component {
                 </Card>
                 <WhiteSpace />
               </React.Fragment>
-            ):
+            )
+            :
             <div>
               <WhiteSpace size='lg' />
               <h3 style={{textAlign: 'center'}}>暂无收藏商品</h3>
@@ -131,23 +218,51 @@ class Cart extends Component {
             boxSizing: 'border-box'
           }}
         >
-          <Checkbox
-            checked={this.state.isAllSelected}
-            style={{color: '#444'}}
-          >
+          <Checkbox {...this.state.allProps} onClick={this.handleAllClick}>
             &nbsp;&nbsp;全选
           </Checkbox>
           <span style={{color: '#888888'}}>已选中{this.state.selectedNumber}件商品</span>
           <span>
-            共计：xxx
+            共计：
+            <span
+              style={{
+                maxWidth: '42px',
+                display: 'inline-block',
+                textAlign: 'right'
+              }}
+            >
+              {this.state.totalPrice}&nbsp;
+            </span>
             <img style={{height: '16px'}} src={`${ICON_PATH}star-coin.svg`} alt='' />
             &nbsp;&nbsp;
-            <button>结算</button>
+            <button
+              className='cart-button'
+              style={{
+                width: '50px',
+                height: '28px',
+                border: '1px solid #bbb',
+                borderRadius: '4px',
+                backgroundColor: '#ffffff'
+              }}
+            >
+               结算
+            </button>
           </span>
         </div>
+        </>
+          : <Redirect to='/login' />
+        }
       </div>
     );
   }
+}
+
+function isIncludes(_id, arr) {
+  for(let i = 0; i < arr.length; i++) {
+    if(_id === arr[i].goodsId)
+      return true;
+  }
+  return false;
 }
 
 export default Cart;

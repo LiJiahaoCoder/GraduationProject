@@ -55,7 +55,7 @@ class Favorite extends Component {
         <WingBlank size='sm'>
           {
             this.props.user.favorite[0] ?
-            this.props.goods.goodsList.map(v => 
+            this.props.goods.favorite.filter( item => isIncludes(item._id, this.props.user.favorite)).map(v => 
               <React.Fragment key={v.name}>
                 <Card>
                   <Card.Header
@@ -84,7 +84,8 @@ class Favorite extends Component {
                 </Card>
                 <WhiteSpace />
               </React.Fragment>
-            ):
+            )
+            :
             <div>
               <WhiteSpace size='lg' />
               <h3 style={{textAlign: 'center'}}>暂无收藏商品</h3>
@@ -94,6 +95,14 @@ class Favorite extends Component {
       </div>
     );
   }
+}
+
+function isIncludes(_id, arr) {
+  for(let i = 0; i < arr.length; i++) {
+    if(_id === arr[i].goodsId)
+      return true;
+  }
+  return false;
 }
 
 export default Favorite;

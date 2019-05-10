@@ -23,6 +23,7 @@ class Home extends Component {
 
     this.onSearchChange = this.onSearchChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleSubmite = this.handleSubmite.bind(this);
   }
 
   componentDidMount() {
@@ -54,6 +55,11 @@ class Home extends Component {
     this.props.history.push(`/goodsinfo/${id}`);
   }
 
+  handleSubmite() {
+    // console.log(this.state.searchValue);
+    this.props.history.push(`/search/${this.state.searchValue}`);
+  }
+
   render() {
     return (
       <div
@@ -68,6 +74,7 @@ class Home extends Component {
           placeholder='搜索'
           maxLength={16}
           onChange={this.onSearchChange}
+          onSubmit={this.handleSubmite}
         />
         <Carousel
           autoplay

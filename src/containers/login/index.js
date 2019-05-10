@@ -89,14 +89,14 @@ class Login extends Component {
         style={{
           position: 'absolute',
           top: '.5rem',
-          right: '.7rem',
+          right: '1rem',
           fontSize: '1.5rem',
           color: '#FFFFFF'
         }}
         onClick={() => this.props.history.push('')}
       >
-          X
-        </span>
+        X
+      </span>
       <Flex
           direction='column'
           align='center'

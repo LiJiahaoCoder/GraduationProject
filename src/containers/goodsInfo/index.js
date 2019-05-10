@@ -10,6 +10,7 @@ import {
   Button,
   Modal
 } from 'antd-mobile';
+import { Redirect } from 'react-router-dom';
 
 import {GOODS_PATH, ICON_PATH} from '../../path';
 import {deletePublish} from '../../redux/goods.redux';
@@ -70,10 +71,12 @@ class GoodsInfo extends Component {
   }
 
   render() {
-    console.log(this.state.goods);
     return (
       <div>
-        <div>
+        {
+          this.props.user.isAuth ? 
+            <>
+              <div>
           <NavBar
             mode='light'
             icon={<Icon type='left' />}
@@ -234,6 +237,10 @@ class GoodsInfo extends Component {
               }
             </div>
             : null
+        }
+            </>
+            :
+            <Redirect to='/login' />
         }
       </div>
     );
