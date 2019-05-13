@@ -2,7 +2,7 @@
  * @Author: LiJiahao 
  * @Date: 2019-03-24 15:37:17 
  * @Last Modified by: LiJiahao
- * @Last Modified time: 2019-05-04 11:19:35
+ * @Last Modified time: 2019-05-13 23:22:26
  */
 /*
  * Map sql to nosql
@@ -45,6 +45,7 @@ const models = {
     'experience': {type: Number, default: 0}, // buy/sale goods will increase experience
     'favorite': [{'goodsId': mongoose.Schema.Types.ObjectId}],
     'cart':[{'goodsId': mongoose.Schema.Types.ObjectId}],
+    'order': [{'goodsId': mongoose.Schema.Types.ObjectId}],
     // optional information
     'avatar': {type: String, default: `avatar.default.${Math.ceil(Math.random() * 6)}.png`},
     'nickname': {type: String, default: Math.random().toString(36).substr(2, 6)},
@@ -68,10 +69,10 @@ const models = {
     'buyer': {type: String},  // mail
     'from': {type: String}, // 发货地址
     'to': {type: String}, // 发货目的地
+    'phoneNumber': {type: Number, require: true}, // 买家电话
     'comment': {type: String},
     'score': {type: Number},
-    'expressNumber': {type: Number},
-    'type': {type: Number}  // 0:出售,1:购买
+    'expressNumber': {type: String}
   },
   chat: {
     'chatId': {type: String, require: true},

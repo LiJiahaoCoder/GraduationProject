@@ -86,8 +86,8 @@ class Refind2 extends React.Component {
           下一步
         </Button>
         <div className='refind-redirector-container'>
-          <span className='refind-register' onClick={()=>this.redirectTo('register')}>注册</span>
-          <span className='refind-login' onClick={()=>this.redirectTo('login')}>登录</span>
+          <span className='refind-register' onClick={()=>this.redirectTo('/register')}>注册</span>
+          <span className='refind-login' onClick={()=>this.redirectTo('/login')}>登录</span>
         </div>
       </>
     );

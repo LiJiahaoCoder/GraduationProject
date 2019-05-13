@@ -6,19 +6,21 @@ import {
   WhiteSpace,
   WingBlank,
   Modal,
-  Checkbox
+  Checkbox,
+  Toast
 } from 'antd-mobile';
 import { Redirect } from 'react-router-dom';
 
 import {removeCart} from '../../redux/user.redux';
 import {getCart} from '../../redux/goods.redux';
+import {createOrder} from '../../redux/order.redux';
 import {GOODS_PATH, ICON_PATH} from '../../path';
 
 const alert = Modal.alert;
 
 @connect(
   state => state,
-  {removeCart, getCart}
+  {removeCart, getCart, createOrder}
 )
 class Cart extends Component {
   constructor(props) {
@@ -39,6 +41,7 @@ class Cart extends Component {
     // this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     this.handleAllClick = this.handleAllClick.bind(this);
     this.handleItemClick = this.handleItemClick.bind(this);
+    this.handlePayClick = this.handlePayClick.bind(this);
   }
 
   componentDidMount() {
@@ -145,6 +148,20 @@ class Cart extends Component {
       });
   }
 
+  handlePayClick() {
+    const orderList = this.props.goods.cart.filter((item, index) => this.state.itemProps[index]);
+    if(orderList[0]) {
+      if(this.state.totalPrice <= this.props.user.stars) {
+        this.props.createOrder(orderList);
+        this.props.history.push('/order');
+      } else {
+        Toast.info('星数量不足', 1.5);
+      }
+    } else {
+      Toast.info('未选中要购买的商品', 1.5);
+    }
+  }
+
   render() {
     return (
       <div
@@ -244,6 +261,7 @@ class Cart extends Component {
                 borderRadius: '4px',
                 backgroundColor: '#ffffff'
               }}
+              onClick={this.handlePayClick}
             >
                结算
             </button>

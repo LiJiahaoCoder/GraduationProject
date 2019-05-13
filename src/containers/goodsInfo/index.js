@@ -15,12 +15,13 @@ import { Redirect } from 'react-router-dom';
 import {GOODS_PATH, ICON_PATH} from '../../path';
 import {deletePublish} from '../../redux/goods.redux';
 import {addFavorite, removeFavorite, addToCart} from '../../redux/user.redux';
+import {createOrder} from '../../redux/order.redux';
 
 const alert = Modal.alert;
 
 @connect(
   state => state,
-  {deletePublish, addFavorite, removeFavorite, addToCart}
+  {deletePublish, addFavorite, removeFavorite, addToCart, createOrder}
 )
 class GoodsInfo extends Component {
   constructor(props) {
@@ -35,6 +36,7 @@ class GoodsInfo extends Component {
     this.handleAddFavorite = this.handleAddFavorite.bind(this);
     this.handleRemoveFavorite = this.handleRemoveFavorite.bind(this);
     this.handleAddToCart = this.handleAddToCart.bind(this);
+    this.handleCreateOrder = this.handleCreateOrder.bind(this);
   }
 
   componentDidMount() {
@@ -68,6 +70,11 @@ class GoodsInfo extends Component {
     const {mail} = this.props.user;
     const {_id} = this.state.goods[0];
     this.props.addToCart({mail, _id});
+  }
+
+  handleCreateOrder() {
+    this.props.createOrder([this.state.goods[0]]);
+    this.props.history.push('/order');
   }
 
   render() {
@@ -232,7 +239,7 @@ class GoodsInfo extends Component {
                       <span style={{backgroundColor: '#f3ae4b'}}>已加入购物车</span> :
                       <span style={{backgroundColor: '#fabc60'}} onClick={this.handleAddToCart}>加入购物车</span>
                     }
-                    <span style={{backgroundColor: '#ff5959'}}>立即购买</span>
+                    <span style={{backgroundColor: '#ff5959'}}  onClick={this.handleCreateOrder}>立即购买</span>
                   </div>
               }
             </div>

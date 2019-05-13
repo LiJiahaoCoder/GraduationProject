@@ -2,7 +2,7 @@
  * @Author: LiJiahao 
  * @Date: 2019-03-24 10:47:52 
  * @Last Modified by: LiJiahao
- * @Last Modified time: 2019-04-25 15:53:34
+ * @Last Modified time: 2019-05-13 17:46:45
  */
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -15,7 +15,7 @@ const io = require('socket.io')(server);
 
 // customize router
 const routes = require('./routes')
-const { userRouter, uploadRouter, goodsRouter } = routes;
+const { userRouter, uploadRouter, goodsRouter, orderRouter } = routes;
 
 // socket
 io.on('connection', function(socket) {
@@ -42,6 +42,7 @@ app.use(bodyParser.json());
 app.use('/user', userRouter);
 app.use('/upload', uploadRouter);
 app.use('/goods', goodsRouter);
+app.use('/order', orderRouter);
 
 // set assets access permission
 app.use('/static', express.static('public'));

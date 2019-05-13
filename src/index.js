@@ -27,6 +27,7 @@ import MeList from './containers/meList';
 import GoodsList from './containers/goodsList';
 import GoodsInfo from './containers/goodsInfo';
 import SearchGoods from './containers/search';
+import Order from './containers/order';
 // import components
 import AuthRoute from './components/authRoute';
 import Dashboard from './components/dashboard';
@@ -58,6 +59,7 @@ ReactDOM.render(
             <Route path='/goods/:goodstype' component={GoodsList} />
             <Route path='/goodsinfo/:id' component={GoodsInfo} />
             <Route path='/search/:searchValue' component={SearchGoods} />
+            <Route path='/order' component={Order} />
             <Route component={Dashboard} />
           </Switch>
         </>

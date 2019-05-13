@@ -108,7 +108,7 @@ class Login extends Component {
           <Flex.Item>
             <List>
               <InputItem
-                maxLength={12}
+                maxLength={24}
                 placeholder='用户名或邮箱登录'
                 onChange={v => this.handleChange('account', v)}
                 value={this.state.account}

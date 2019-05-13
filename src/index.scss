@@ -352,3 +352,21 @@ body>div#blockbyte-bs-indicator[data-pos='right'] {
 .cart-button:active {
   box-shadow: -0.05em -0.1em .2em rgba(0,0,0,.6) inset;
 }
+
+/* order */
+.order-buy {
+  position: fixed;
+  bottom: 0px;
+  height: 2.5rem;
+  width: 100%;
+  line-height: 2.5rem;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: bold;
+  color: rgb(255, 253, 225);
+  background-color: rgb(81, 234, 234);
+}
+
+.order-buy:active {
+  box-shadow: -0.05em -0.1em .2em rgba(255,254,225,.6) inset;
+}
