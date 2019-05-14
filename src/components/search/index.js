@@ -1,61 +1,38 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Grid, NavBar, Icon, WhiteSpace } from 'antd-mobile';
 
 import {GOODS_PATH} from '../../path';
-import {loadByType, loadByBrand} from '../../redux/goods.redux';
-import {GetTypeByPath} from '../../components/category/tab';
-
-const BRAND = {
-  apple: ['apple', '苹果'],
-  huawei: ['huawei', '华为'],
-  vivo: ['vivo'],
-  meizu: ['meizu', '魅族'],
-  oppo: ['oppo'],
-  mi: ['mi', '小米'],
-  sumsung: ['sumsung', '三星']
-};
 
 @connect(
-  state => state.goods,
-  {loadByType, loadByBrand}
+  state => state.goods
 )
-class GoodsList extends Component {
+class SearchGoods extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      goodsItems: [],
-      type: !BRAND[this.props.match.params.goodstype] ?
-            GetTypeByPath[this.props.match.params.goodstype] :
-            BRAND[this.props.match.params.goodstype]
+      goodsItems: []
     };
+
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
-    if(!BRAND[this.props.match.params.goodstype])
-      this.props.loadByType({type: this.state.type, page: 0, itemNum: 24});
-    else
-      this.props.loadByBrand({brand: this.state.type, page: 0, itemNum: 24});
-  }
-
-  componentDidUpdate(prevProps) {
-    if(this.props.goodsList !== prevProps.goodsList) {
-      const data = this.props.goodsList.map(v => (
-        {
-          icon: `${GOODS_PATH}${v.images[0]}`,
-          text: v.name,
-          id: v._id
-        })
-      );
-      this.setState({goodsItems: data});
-    }
+    const data = this.props.goodsList.map(v => (
+      {
+        icon: `${GOODS_PATH}${v.images[0]}`,
+        text: v.name,
+        id: v._id
+      })
+    );
+    this.setState({goodsItems: data});
   }
 
   handleClick(id) {
     this.props.history.push(`/goodsinfo/${id}`);
   }
-
+  
   render() {
     return (
       <div>
@@ -64,11 +41,7 @@ class GoodsList extends Component {
           icon={<Icon type='left' />}
           onLeftClick={() => this.props.history.goBack()}
         >
-          {
-            GetTypeByPath[this.props.match.params.goodstype] ?
-              GetTypeByPath[this.props.match.params.goodstype]:
-              '加载中...'
-          }
+          搜索结果
         </NavBar>
         {
           this.state.goodsItems[0] ?
@@ -109,4 +82,4 @@ class GoodsList extends Component {
   }
 }
 
-export default GoodsList;
+export default SearchGoods;

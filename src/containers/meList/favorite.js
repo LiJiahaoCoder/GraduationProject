@@ -11,13 +11,13 @@ import NavBarHeader from '../../components/navbarHeader';
 import {listTitle, getTitle} from './listTitle';
 import {GOODS_PATH, ICON_PATH} from '../../path';
 import {removeFavorite} from '../../redux/user.redux';
-import {getFavorite} from '../../redux/goods.redux';
+import {getFavorite, setGoodsInfo} from '../../redux/goods.redux';
 
 const alert = Modal.alert;
 
 @connect(
   state => state,
-  {removeFavorite, getFavorite}
+  {removeFavorite, getFavorite, setGoodsInfo}
 )
 class Favorite extends Component {
   constructor(props) {
@@ -39,7 +39,10 @@ class Favorite extends Component {
   }
 
   toGoodsInfo(id) {
-    this.props.history.push(`/goodsinfo/${id}`);
+    this.props.setGoodsInfo('favorite');
+    setTimeout(() => {
+      this.props.history.push(`/goodsinfo/${id}`);
+    }, 100);
   }
 
   render() {

@@ -3,11 +3,11 @@ import { Carousel, SearchBar, Grid, WhiteSpace } from 'antd-mobile';
 import { connect } from 'react-redux';
 
 import {GOODS_PATH} from '../../path';
-import {loadByPage} from '../../redux/goods.redux';
+import {loadByPage, search, setGoodsInfo} from '../../redux/goods.redux';
 
 @connect(
   state => state.goods,
-  {loadByPage}
+  {loadByPage, search, setGoodsInfo}
 )
 class Home extends Component {
   constructor(props) {
@@ -27,6 +27,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
+    this.props.setGoodsInfo('goodsList');
     this.props.loadByPage({page: 0, itemNum: 24});
     // console.log(this.props);
     this.setState({
@@ -57,7 +58,8 @@ class Home extends Component {
 
   handleSubmite() {
     // console.log(this.state.searchValue);
-    this.props.history.push(`/search/${this.state.searchValue}`);
+    this.props.search({name: this.state.searchValue, brand: this.state.searchValue, page: 0, itemNum: 24});
+    setTimeout(() => this.props.history.push(`/search/${this.state.searchValue}`), 200);
   }
 
   render() {

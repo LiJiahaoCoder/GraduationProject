@@ -11,6 +11,7 @@ const ADD_CART = 'ADD_CART';
 const REMOVE_CART = 'REMOVE_CART';
 const REMOVE_FAVORITE = 'REMOVE_FAVORITE';
 const LOAD_DATA = 'LOAD_DATA';
+const PAY = 'PAY';
 
 const initState = {
   isAuth: false,
@@ -40,7 +41,9 @@ export const user = (state = initState, action) => {
     case UPLOAD_SUCCESS:
       return {...state, isUpload: true, ...action.payload};
     case LOAD_DATA:
-      return {...state,isAuth: true, ...action.payload};
+      return {...state, isAuth: true, ...action.payload};
+    case PAY:
+      return {...state, isPay: true, ...action.payload};
     default:
       return state;
   }
@@ -199,6 +202,20 @@ function uploadImage(obj) {
   }
 }
 
+function pay(order) {
+  return dispatch => {
+    Axios.post('/user/pay', {order})
+      .then(res => {
+        if(res.status === 200 && res.data.code === 0) {
+          Toast.info('下单成功', 1.5);
+          dispatch(paySuccess(res.data.data));
+        } else {
+          Toast.info('下单失败', 1.5);
+        }
+      });
+  }
+}
+
 // action creators
 function authSuccess(obj) {
   const {password, ...data} = obj;
@@ -242,6 +259,10 @@ function loadData(userInfo) {
   return {type: LOAD_DATA, payload: userInfo};
 }
 
+function paySuccess(data) {
+  return {type: PAY, payload: data};
+}
+
 export {
   login,
   register,
@@ -253,5 +274,6 @@ export {
   addFavorite,
   removeFavorite,
   addToCart,
-  removeCart
+  removeCart,
+  pay
 };

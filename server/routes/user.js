@@ -2,13 +2,15 @@
  * @Author: LiJiahao 
  * @Date: 2019-03-24 15:37:06 
  * @Last Modified by: LiJiahao
- * @Last Modified time: 2019-05-13 17:44:56
+ * @Last Modified time: 2019-05-14 23:13:23
  */
 const express = require('express');
 const utils = require('utility');
 const Router = express.Router();
 const model = require('../model');
 const User = model.getModel('user');
+const Goods = model.getModel('goods');
+const Order = model.getModel('order');
 const mailer = require('nodemailer');
 
 // create mail transporter
@@ -186,6 +188,56 @@ Router.get('/info', function(req, res) {
       return res.json({code: 0, data: doc});
   });
 });
+
+Router.post('/pay', function(req, res) {
+  let {order} = req.body;
+  let {userid} = req.cookies;
+  let price = order.reduce((acc, cur) => {acc += cur.price; return acc;}, 0);
+  let id = order.map(v => ({goodsId: v.goodsId}));
+  let mapGoodsId = order.map(v => ({_id: v.goodsId}));
+
+  User.findOne({_id: userid}, _filter, function(err, doc) {
+    let data;
+    (async function() {
+      if(doc) {
+        // 更新user的order，并删去购物车和收藏中的物品
+        doc.order = doc.order.concat(...id);
+        doc.cart = doc.cart.reduce((acc, cur)=>{
+          if(!isIncludes(cur.goodsId, id))
+            acc.push(cur);
+          return acc;
+        }, []);
+        doc.favorite = doc.favorite.reduce((acc, cur)=>{
+          if(!isIncludes(cur.goodsId, id))
+            acc.push(cur);
+          return acc;
+        }, []);
+        doc.stars -= Number(price);
+        await doc.save();
+        data = doc;
+        // 更新goods中的status
+        await Goods.updateMany({'$or': mapGoodsId}, {status: '已付款'});
+        // 添加订单到order
+        for(let i = 0; i < order.length; i++) {
+          let {goodsId, status, price, buyer, to, phoneNumber, owner} = order[i];
+          const orderModel = new Order({goodsId, status, price, buyer, to, phoneNumber, saler: owner, from: '', comment: '', expressNumber: '', score: 0});
+          await orderModel.save();
+        }
+        return res.json({code: 0, data: data});
+      } else {
+        return res.json({code: 1});
+      }
+    })()
+  });
+});
+
+function isIncludes(id, arr) {
+  for(let i = 0; i < arr.length; i++) {
+    if(String(id) === arr[i].goodsId)
+      return true;
+  }
+  return false;
+}
 
 function md5Password(password) {
   const salt = 'lijiahao-graduation+a90382afa#H#41';

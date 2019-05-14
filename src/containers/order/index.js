@@ -8,16 +8,19 @@ import {
   Modal,
   Card,
   WhiteSpace,
-  Toast
+  Toast,
+  Button
 } from 'antd-mobile';
 
 import {GOODS_PATH, ICON_PATH} from '../../path';
+import {pay} from '../../redux/user.redux';
 
 const Item = List.Item;
 const alert = Modal.alert;
 
 @connect (
-  state => state
+  state => state,
+  {pay}
 )
 class Order extends Component {
   constructor(props) {
@@ -49,13 +52,19 @@ class Order extends Component {
     const {phoneNumber, to} = this.state;
     const orders = this.props.order.orderList.map(v => ({
       goodsId: v._id,
+      price: v.price,
+      owner: v.owner,
       status: '已付款',
       buyer: this.props.user.mail,
       to: to,
       phoneNumber: phoneNumber
     }));
     if(phoneNumber && to) {
-      console.info(orders);
+      this.props.pay(orders);
+      setTimeout(() => {
+        if(this.props.user.isPay)
+          this.props.history.push('/');
+      }, 1000);
     } else {
       Toast.info('基本信息未填写完整', 1.5);
     }
@@ -65,7 +74,7 @@ class Order extends Component {
     return (
       <div
         style={{
-          height: '94vh',
+          height: '93vh',
           overflow: 'auto'
         }}
       >
@@ -125,9 +134,24 @@ class Order extends Component {
             </React.Fragment>
           ))
         }
-        <div onClick={this.handleBuyClick} className='order-buy'>
+        <Button
+          onClick={
+            () =>
+            alert('付款', '确认付款？', [
+              { text: 'Cancel', onPress: () => console.log('cancel') },
+              { text: 'Ok', onPress: this.handleBuyClick },
+            ])
+          }
+          type='primary'
+          disabled={!(this.state.phoneNumber&&this.state.to)}
+          style={{
+            position: 'fixed',
+            width: '100%',
+            bottom: 0
+          }}
+        >
           购买
-        </div>
+        </Button>
       </div>
     );
   }

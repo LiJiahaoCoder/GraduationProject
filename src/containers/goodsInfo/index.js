@@ -40,7 +40,8 @@ class GoodsInfo extends Component {
   }
 
   componentDidMount() {
-    const goods = this.props.goods.goodsList.filter( v => v._id === this.props.match.params.id);
+    let searchFrom = this.props.goods.goodsInfo;
+    const goods = this.props.goods[searchFrom].filter( v => v._id === this.props.match.params.id);
     this.setState({goods: goods});
   }
 
@@ -239,7 +240,15 @@ class GoodsInfo extends Component {
                       <span style={{backgroundColor: '#f3ae4b'}}>已加入购物车</span> :
                       <span style={{backgroundColor: '#fabc60'}} onClick={this.handleAddToCart}>加入购物车</span>
                     }
-                    <span style={{backgroundColor: '#ff5959'}}  onClick={this.handleCreateOrder}>立即购买</span>
+                    {
+                      this.state.goods[0].status === '未出售' ?
+                        <span style={{backgroundColor: '#ff5959'}}  onClick={this.handleCreateOrder}>
+                          立即购买
+                        </span> :
+                        <span style={{backgroundColor: '#ff5959'}}>
+                          已交易
+                        </span>
+                    }
                   </div>
               }
             </div>

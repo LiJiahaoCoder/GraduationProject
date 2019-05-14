@@ -26,11 +26,11 @@ import ProfileInfo from './containers/profileInfo';
 import MeList from './containers/meList';
 import GoodsList from './containers/goodsList';
 import GoodsInfo from './containers/goodsInfo';
-import SearchGoods from './containers/search';
 import Order from './containers/order';
 // import components
 import AuthRoute from './components/authRoute';
 import Dashboard from './components/dashboard';
+import Search from './components/search';
 // config
 import './config';
 
@@ -58,8 +58,8 @@ ReactDOM.render(
             <Route path='/me/:feature' component={MeList} />
             <Route path='/goods/:goodstype' component={GoodsList} />
             <Route path='/goodsinfo/:id' component={GoodsInfo} />
-            <Route path='/search/:searchValue' component={SearchGoods} />
             <Route path='/order' component={Order} />
+            <Route path='/search' component={Search} />
             <Route component={Dashboard} />
           </Switch>
         </>

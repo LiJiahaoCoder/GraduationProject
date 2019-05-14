@@ -2,7 +2,7 @@
  * @Author: LiJiahao 
  * @Date: 2019-03-24 15:37:17 
  * @Last Modified by: LiJiahao
- * @Last Modified time: 2019-05-13 23:22:26
+ * @Last Modified time: 2019-05-14 23:07:03
  */
 /*
  * Map sql to nosql
@@ -66,6 +66,8 @@ const models = {
   order: {
     'goodsId': {type: mongoose.Schema.Types.ObjectId},
     'status': {type: String},
+    'price': {type: Number},
+    'saler': {type: String},
     'buyer': {type: String},  // mail
     'from': {type: String}, // 发货地址
     'to': {type: String}, // 发货目的地

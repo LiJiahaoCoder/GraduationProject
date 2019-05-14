@@ -12,7 +12,7 @@ import {
 import { Redirect } from 'react-router-dom';
 
 import {removeCart} from '../../redux/user.redux';
-import {getCart} from '../../redux/goods.redux';
+import {getCart, setGoodsInfo} from '../../redux/goods.redux';
 import {createOrder} from '../../redux/order.redux';
 import {GOODS_PATH, ICON_PATH} from '../../path';
 
@@ -20,7 +20,7 @@ const alert = Modal.alert;
 
 @connect(
   state => state,
-  {removeCart, getCart, createOrder}
+  {removeCart, getCart, createOrder, setGoodsInfo}
 )
 class Cart extends Component {
   constructor(props) {
@@ -61,7 +61,10 @@ class Cart extends Component {
   }
 
   toGoodsInfo(id) {
-    this.props.history.push(`/goodsinfo/${id}`);
+    this.props.setGoodsInfo('cart');
+    setTimeout(() => {
+      this.props.history.push(`/goodsinfo/${id}`);
+    }, 100);
   }
 
   /* handleCheckboxChange({target}) {
