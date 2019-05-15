@@ -2,7 +2,7 @@
  * @Author: LiJiahao 
  * @Date: 2019-03-24 15:37:06 
  * @Last Modified by: LiJiahao
- * @Last Modified time: 2019-05-14 23:13:23
+ * @Last Modified time: 2019-05-16 00:26:48
  */
 const express = require('express');
 const utils = require('utility');
@@ -34,6 +34,22 @@ Router.get('/list', function(req, res) {
   // User.remove({}, function(err, docm) {});
   User.find({}, function(err, doc) {
     return res.json(doc);
+  });
+});
+
+Router.get('/getuserbymail', function(req, res) {
+  const {mail} = req.query;
+  User.findOne({mail}, function(err, doc) {
+    if(doc)
+      return res.json({code: 0, userid: doc._id});
+  });
+});
+
+Router.get('/getuserbyid', function(req, res) {
+  const {_id} = req.query;
+  User.findOne({_id}, function(err, doc) {
+    if(doc)
+      return res.json({code: 0, data: doc});
   });
 });
 

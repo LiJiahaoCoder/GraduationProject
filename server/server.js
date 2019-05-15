@@ -2,7 +2,7 @@
  * @Author: LiJiahao 
  * @Date: 2019-03-24 10:47:52 
  * @Last Modified by: LiJiahao
- * @Last Modified time: 2019-05-13 17:46:45
+ * @Last Modified time: 2019-05-16 00:58:38
  */
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -20,6 +20,13 @@ const { userRouter, uploadRouter, goodsRouter, orderRouter } = routes;
 // socket
 io.on('connection', function(socket) {
   console.log('user login');
+  socket.on('success', function(msg) {
+    console.info(msg);
+    socket.emit('success', '成功');
+  });
+  socket.on('disconnect', function(reason) {
+    console.log('user logout');
+  });
 });
 
 // allow cors

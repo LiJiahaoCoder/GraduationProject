@@ -173,7 +173,11 @@ class PublishList extends Component {
                 value={this.state.expressNumber}
               />
             </List.Item>
-            <List.Item>
+            <List.Item
+              style={{
+                paddingRight: 0
+              }}
+            >
               <Button
                 className='my-button'
                 type='primary'

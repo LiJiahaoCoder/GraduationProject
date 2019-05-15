@@ -106,7 +106,11 @@ class IdVertify extends Component {
               value={this.state.identityNumber}
             />
           </List.Item>
-          <List.Item>
+          <List.Item
+            style={{
+              paddingRight: 0
+            }}
+          >
             <Button
               className='my-button'
               type='primary'

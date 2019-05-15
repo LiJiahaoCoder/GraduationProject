@@ -2,7 +2,7 @@
  * @Author: LiJiahao 
  * @Date: 2019-03-24 15:37:17 
  * @Last Modified by: LiJiahao
- * @Last Modified time: 2019-05-14 23:07:03
+ * @Last Modified time: 2019-05-16 01:01:47
  */
 /*
  * Map sql to nosql
@@ -81,7 +81,8 @@ const models = {
     'from': {type: String, require: true},
     'to': {type: String, require: true},
     'content': {type: String, default: ''},
-    'sendTime': {type: Date, default: new Date().getTime()}
+    'sendTime': {type: Date, default: new Date().getTime()},
+    'isRead': {type: Boolean, default: false}
   }
 };
 // create models

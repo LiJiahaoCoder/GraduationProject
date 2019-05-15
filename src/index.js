@@ -27,6 +27,7 @@ import MeList from './containers/meList';
 import GoodsList from './containers/goodsList';
 import GoodsInfo from './containers/goodsInfo';
 import Order from './containers/order';
+import Chat from './containers/chat';
 // import components
 import AuthRoute from './components/authRoute';
 import Dashboard from './components/dashboard';
@@ -60,6 +61,7 @@ ReactDOM.render(
             <Route path='/goodsinfo/:id' component={GoodsInfo} />
             <Route path='/order' component={Order} />
             <Route path='/search' component={Search} />
+            <Route path='/chat/:userid' component={Chat} />
             <Route component={Dashboard} />
           </Switch>
         </>

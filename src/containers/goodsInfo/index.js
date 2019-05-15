@@ -11,6 +11,7 @@ import {
   Modal
 } from 'antd-mobile';
 import { Redirect } from 'react-router-dom';
+import Axios from 'axios';
 
 import {GOODS_PATH, ICON_PATH} from '../../path';
 import {deletePublish} from '../../redux/goods.redux';
@@ -37,6 +38,7 @@ class GoodsInfo extends Component {
     this.handleRemoveFavorite = this.handleRemoveFavorite.bind(this);
     this.handleAddToCart = this.handleAddToCart.bind(this);
     this.handleCreateOrder = this.handleCreateOrder.bind(this);
+    this.handleChat = this.handleChat.bind(this);
   }
 
   componentDidMount() {
@@ -76,6 +78,15 @@ class GoodsInfo extends Component {
   handleCreateOrder() {
     this.props.createOrder([this.state.goods[0]]);
     this.props.history.push('/order');
+  }
+
+  handleChat(mail) {
+    Axios.get('/user/getuserbymail', {params: {mail}})
+      .then(res => {
+        if(res.status === 200 && res.data.code === 0) {
+          this.props.history.push(`/chat/${res.data.userid}`);
+        }
+      });
   }
 
   render() {
@@ -234,7 +245,7 @@ class GoodsInfo extends Component {
                   </div>
                   : 
                   <div className='goodsinfo-bottom-bar'>
-                    <span style={{backgroundColor: '#49beb7'}}>联系卖家</span>
+                    <span style={{backgroundColor: '#49beb7'}} onClick={() => this.handleChat(this.state.goods[0].owner)}>联系卖家</span>
                     {
                       this.props.user.cart.some(v => v.goodsId === this.props.match.params.id) ?
                       <span style={{backgroundColor: '#f3ae4b'}}>已加入购物车</span> :
