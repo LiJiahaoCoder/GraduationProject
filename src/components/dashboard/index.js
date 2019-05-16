@@ -5,7 +5,7 @@ import NavLinkBar from '../navLinkBar';
 import Me from '../../containers/me';
 import Category from '../category';
 import Cart from '../../containers/cart';
-import Chat from '../../containers/chat';
+import ChatList from '../../containers/chat/chatList';
 import Home from '../../containers/home';
 
 class Dashboard extends Component {
@@ -30,10 +30,10 @@ class Dashboard extends Component {
         component: Cart,
       },
       {
-        path: '/chat',
+        path: '/chatlist',
         text: '消息',
         icon: 'msg',
-        component: Chat,
+        component: ChatList,
       },
       {
         path: '/me',
@@ -49,7 +49,7 @@ class Dashboard extends Component {
           <Switch>
             {
               navList.map(v=>(
-                <Route exact={v.text === '首页'} key={v.path} path={v.path} component={v.component} />
+                <Route exact={v.text === '首页' || v.text === '消息'} key={v.path} path={v.path} component={v.component} />
                 )
               )
             }

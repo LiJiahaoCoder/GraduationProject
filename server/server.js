@@ -2,7 +2,7 @@
  * @Author: LiJiahao 
  * @Date: 2019-03-24 10:47:52 
  * @Last Modified by: LiJiahao
- * @Last Modified time: 2019-05-16 00:58:38
+ * @Last Modified time: 2019-05-16 16:51:14
  */
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -15,14 +15,20 @@ const io = require('socket.io')(server);
 
 // customize router
 const routes = require('./routes')
-const { userRouter, uploadRouter, goodsRouter, orderRouter } = routes;
+const { userRouter, uploadRouter, goodsRouter, orderRouter, chatRouter } = routes;
+const model = require('./model');
+const Chat = model.getModel('chat');
 
 // socket
 io.on('connection', function(socket) {
   console.log('user login');
-  socket.on('success', function(msg) {
+  socket.on('sendmsg', function(msg) {
+    const {from , to, content} = msg;
+    const chatId = [from, to].sort().join('_');
+    Chat.create({chatId, from, to, content}, function(err, doc) {
+      io.emit('rcvmsg', Object.assign({}, doc._doc));
+    });
     console.info(msg);
-    socket.emit('success', '成功');
   });
   socket.on('disconnect', function(reason) {
     console.log('user logout');
@@ -50,6 +56,7 @@ app.use('/user', userRouter);
 app.use('/upload', uploadRouter);
 app.use('/goods', goodsRouter);
 app.use('/order', orderRouter);
+app.use('/chat', chatRouter);
 
 // set assets access permission
 app.use('/static', express.static('public'));

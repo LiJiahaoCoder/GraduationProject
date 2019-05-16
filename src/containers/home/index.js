@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 
 import {GOODS_PATH} from '../../path';
 import {loadByPage, search, setGoodsInfo} from '../../redux/goods.redux';
+import {getMsgList} from '../../redux/chat.redux';
 
 @connect(
-  state => state.goods,
-  {loadByPage, search, setGoodsInfo}
+  state => state,
+  {loadByPage, search, setGoodsInfo, getMsgList}
 )
 class Home extends Component {
   constructor(props) {
@@ -36,14 +37,17 @@ class Home extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if(this.props.goodsList !== prevProps.goodsList) {
-      const data = this.props.goodsList.map(v => (
+    if(this.props.goods.goodsList !== prevProps.goods.goodsList) {
+      const data = this.props.goods.goodsList.map(v => (
         {
           icon: `${GOODS_PATH}${v.images[0]}`,
           text: v.name,
           id: v._id
         })
       );
+      if(this.props.user.isAuth) {
+        this.props.getMsgList();
+      }
       this.setState({goodsItems: data});
     }
   }

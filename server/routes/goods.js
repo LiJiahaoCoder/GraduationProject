@@ -20,6 +20,14 @@ Router.post('/mypublish', function(req, res) {
   });
 });
 
+Router.get('/getgoodsbyid', function(req, res) {
+  const {_id} = req.query;
+  Goods.findOne({_id}, function(err, doc) {
+    if(doc)
+      return res.json({code: 0, goods: doc});
+  });
+});
+
 Router.post('/changeorderstatus', function(req, res) {
   const {_id, status, expressNumber, price} = req.body;
   // console.log(price);

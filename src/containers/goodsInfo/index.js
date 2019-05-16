@@ -44,7 +44,12 @@ class GoodsInfo extends Component {
   componentDidMount() {
     let searchFrom = this.props.goods.goodsInfo;
     const goods = this.props.goods[searchFrom].filter( v => v._id === this.props.match.params.id);
-    this.setState({goods: goods});
+    Axios.get('/goods/getgoodsbyid', {params: {_id: this.props.match.params.id}})
+      .then(res => {
+        if(res.status === 200 && res.data.code === 0) {
+          this.setState({goods: [res.data.goods]});
+        }
+      });
   }
 
   handleDelete() {

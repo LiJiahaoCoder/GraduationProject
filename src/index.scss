@@ -364,3 +364,18 @@ body>div#blockbyte-bs-indicator[data-pos='right'] {
 .cart-button:active {
   box-shadow: -0.05em -0.1em .2em rgba(0,0,0,.6) inset;
 }
+
+/* chat */
+.chat-msg .am-list-content {
+  word-break: break-all;
+  white-space: unset !important;
+}
+
+.chat-me .am-list-content {
+  padding-left: 4rem;
+  text-align: right !important;
+}
+
+.chat-me .am-list-extra {
+  flex-basis: 10% !important;
+}
