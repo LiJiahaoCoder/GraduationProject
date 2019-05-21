@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 // components
 import Recharge from './recharge';
 import IdVertify from './idVertify';
-import BankCard from './bankcard';
+// import BankCard from './bankcard';
 import Safe from './safe';
 import PublishList from './publishList';
 import Publish from './publish';
@@ -21,10 +21,10 @@ const list = [
     path: 'idvertify',
     component: IdVertify
   },
-  {
-    path: 'bankcard',
-    component: BankCard
-  },
+  // {
+  //   path: 'bankcard',
+  //   component: BankCard
+  // },
   {
     path: 'safe',
     component: Safe

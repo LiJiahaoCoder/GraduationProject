@@ -37,7 +37,7 @@ class Chat extends Component {
 
   componentDidMount() {
     const userid = this.props.match.params.userid;
-    this.props.recieveMsg();
+    this.props.recieveMsg(this.props.user._id, userid);
     Axios.get('/user/getuserbyid', {params: {_id: userid}})
       .then(res => {
         if(res.status === 200 && res.data.code === 0) {

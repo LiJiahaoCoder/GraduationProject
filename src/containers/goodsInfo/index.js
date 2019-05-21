@@ -8,7 +8,8 @@ import {
   List,
   TextareaItem,
   Button,
-  Modal
+  Modal,
+  Toast
 } from 'antd-mobile';
 import { Redirect } from 'react-router-dom';
 import Axios from 'axios';
@@ -81,8 +82,12 @@ class GoodsInfo extends Component {
   }
 
   handleCreateOrder() {
-    this.props.createOrder([this.state.goods[0]]);
-    this.props.history.push('/order');
+    if(this.props.user.isCertification) {
+      this.props.createOrder([this.state.goods[0]]);
+      this.props.history.push('/order');
+    } else {
+      Toast.info('请先实名认证', 1.5);
+    }
   }
 
   handleChat(mail) {

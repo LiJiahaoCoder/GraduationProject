@@ -152,12 +152,25 @@ class PublishList extends Component {
               </React.Fragment>
             )
           }
-          <div
-            className='publish-button'
-            onClick={() => setTimeout(()=>this.handlePress(), 500)}
-          >
-            +
-          </div>
+          {
+            this.props.user.isCertification ?
+              <div
+                className='publish-button'
+                onClick={() => setTimeout(()=>this.handlePress(), 500)}
+              >
+                +
+              </div>
+              :
+              <div
+                style={{
+                  fontSize: '1.4rem'
+                }}
+                className='publish-button'
+                onClick={() => setTimeout(()=>{this.props.history.push('/me/idvertify')}, 500)}
+              >
+                请先进行实名认证
+              </div>
+          }
         </WingBlank>
         <Modal
           popup

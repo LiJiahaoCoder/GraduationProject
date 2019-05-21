@@ -31,11 +31,11 @@ class Me extends Component {
         path: 'idvertify',
         extra: this.props.isCertification ? '已认证' : '未认证'
       },
-      {
-        text: '银行卡',
-        icon: 'bankcard',
-        path: 'bankcard',
-      },
+      // {
+      //   text: '银行卡',
+      //   icon: 'bankcard',
+      //   path: 'bankcard',
+      // },
       {
         text: '安全',
         icon: 'safe',

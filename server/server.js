@@ -2,7 +2,7 @@
  * @Author: LiJiahao 
  * @Date: 2019-03-24 10:47:52 
  * @Last Modified by: LiJiahao
- * @Last Modified time: 2019-05-16 16:51:14
+ * @Last Modified time: 2019-05-21 12:14:28
  */
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -23,7 +23,7 @@ const Chat = model.getModel('chat');
 io.on('connection', function(socket) {
   console.log('user login');
   socket.on('sendmsg', function(msg) {
-    const {from , to, content} = msg;
+    let {from , to, content} = msg;
     const chatId = [from, to].sort().join('_');
     Chat.create({chatId, from, to, content}, function(err, doc) {
       io.emit('rcvmsg', Object.assign({}, doc._doc));

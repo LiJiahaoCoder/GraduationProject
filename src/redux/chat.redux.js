@@ -10,7 +10,8 @@ const MSG_SHOW = 'MSG_SHOW';
 const initState = {
   msgList: [],
   showList: [],
-  unread: 0
+  unread: 0,
+  chatWith: ''
 };
 
 const chat = (state = initState, action) => {
@@ -45,11 +46,13 @@ function sendMsg(msg) {
   } 
 }
 
-function recieveMsg() {
+function recieveMsg(userid, chatWith) {
   return dispatch => {
     socket.on('rcvmsg', function(msg) {
       console.log(msg);
-      dispatch(recieveMsgSuccess(msg));
+      let {from, to} = msg;
+      if([from, to].includes(userid) && [from, to].includes(chatWith))
+        dispatch(recieveMsgSuccess(msg));
     });
   }
 }

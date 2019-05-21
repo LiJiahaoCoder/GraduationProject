@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Carousel, SearchBar, Grid, WhiteSpace } from 'antd-mobile';
 import { connect } from 'react-redux';
 
-import {GOODS_PATH} from '../../path';
+import {GOODS_PATH, AVATAR_PATH} from '../../path';
 import {loadByPage, search, setGoodsInfo} from '../../redux/goods.redux';
 import {getMsgList} from '../../redux/chat.redux';
 
@@ -89,7 +89,7 @@ class Home extends Component {
           {this.state.carouselData.map(val => (
             <a
               key={val}
-              href="http://www.alipay.com"
+              href="https://mobile.ant.design/index-cn"
               style={{ display: 'inline-block', width: '100%', height: this.state.imgHeight }}
             >
               <img

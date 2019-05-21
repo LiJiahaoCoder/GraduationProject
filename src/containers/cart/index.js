@@ -152,16 +152,20 @@ class Cart extends Component {
   }
 
   handlePayClick() {
-    const orderList = this.props.goods.cart.filter((item, index) => this.state.itemProps[index]);
-    if(orderList[0]) {
-      if(this.state.totalPrice <= this.props.user.stars) {
-        this.props.createOrder(orderList);
-        this.props.history.push('/order');
+    if(this.props.user.isCertification) {
+      const orderList = this.props.goods.cart.filter((item, index) => this.state.itemProps[index]);
+      if(orderList[0]) {
+        if(this.state.totalPrice <= this.props.user.stars) {
+          this.props.createOrder(orderList);
+          this.props.history.push('/order');
+        } else {
+          Toast.info('星数量不足', 1.5);
+        }
       } else {
-        Toast.info('星数量不足', 1.5);
+        Toast.info('未选中要购买的商品', 1.5);
       }
     } else {
-      Toast.info('未选中要购买的商品', 1.5);
+      Toast.info('请先实名认证', 1.5);
     }
   }
 
