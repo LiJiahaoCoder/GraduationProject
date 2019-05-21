@@ -365,6 +365,7 @@ class Publish extends Component {
     this.onChange = this.onChange.bind(this);
     this.onImageChange = this.onImageChange.bind(this);
     this.handlePublish = this.handlePublish.bind(this);
+    this.isDisabled = this.isDisabled.bind(this);
   }
 
   onChange(val, key) {
@@ -372,6 +373,17 @@ class Publish extends Component {
       [key]: val
     });
     this.setState({mail: this.props.user.mail});
+  }
+
+  isDisabled() {
+    return this.state.name &&
+            this.state.price &&
+            this.state.brand &&
+            this.state.boughtTime &&
+            this.state.type[0] &&
+            this.state.images[0] &&
+            this.state.newLevel[0] &&
+            this.state.introduction;
   }
  
   onImageChange(files) {
@@ -462,7 +474,7 @@ class Publish extends Component {
             files={this.state.images}
             onChange={(val) => this.onChange(val, 'introduction')}
             />
-          <Button type='primary' onClick={this.handlePublish}>发布</Button>
+          <Button style={{width: '94vw', marginLeft: '3vw'}} disabled={!this.isDisabled()} type='primary' onClick={this.handlePublish}>发布</Button>
           </form>
         </>
       </div>

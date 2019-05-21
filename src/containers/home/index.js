@@ -3,12 +3,12 @@ import { Carousel, SearchBar, Grid, WhiteSpace } from 'antd-mobile';
 import { connect } from 'react-redux';
 
 import {GOODS_PATH, AVATAR_PATH} from '../../path';
-import {loadByPage, search, setGoodsInfo} from '../../redux/goods.redux';
+import {loadByPage, search, setGoodsInfo, clear} from '../../redux/goods.redux';
 import {getMsgList} from '../../redux/chat.redux';
 
 @connect(
   state => state,
-  {loadByPage, search, setGoodsInfo, getMsgList}
+  {loadByPage, search, setGoodsInfo, getMsgList, clear}
 )
 class Home extends Component {
   constructor(props) {
@@ -18,18 +18,20 @@ class Home extends Component {
       searchValue: '',
       carouselData: [1, 2, 3],
       goodsItems: [],
-      imgHeight: 176
-      
+      imgHeight: 176,
+      page: 0
     };
 
     this.onSearchChange = this.onSearchChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleSubmite = this.handleSubmite.bind(this);
+    this.handleLoadMore = this.handleLoadMore.bind(this);
   }
 
   componentDidMount() {
     this.props.setGoodsInfo('goodsList');
-    this.props.loadByPage({page: 0, itemNum: 24});
+    this.props.clear();
+    this.props.loadByPage({page: this.state.page, itemNum: 12});
     // console.log(this.props);
     this.setState({
       carouselData: ['AiyWuByWklrrUDlFignR', 'TekJlZRVCjLFexlOCuWn', 'IJOtIlfsYdTyaDTRVrLI'],
@@ -52,6 +54,16 @@ class Home extends Component {
     }
   }
 
+  /* shouldComponentUpdate(nextProps, nextState) {
+    if(this.props !== nextProps) {
+      if(this.props.goods.goodsList === nextProps.goods.goodsList) {
+        this.setState({isLoadMore: false});
+      }
+      return true;
+    }
+    return true;
+  } */
+
   onSearchChange(val) {
     this.setState({searchValue: val});
   }
@@ -62,8 +74,14 @@ class Home extends Component {
 
   handleSubmite() {
     // console.log(this.state.searchValue);
-    this.props.search({name: this.state.searchValue, brand: this.state.searchValue, page: 0, itemNum: 24});
+    this.props.search({name: this.state.searchValue, brand: this.state.searchValue});
     setTimeout(() => this.props.history.push(`/search/${this.state.searchValue}`), 200);
+  }
+
+  handleLoadMore() {
+    let page = this.state.page;
+    this.setState({page: ++page});
+    this.props.loadByPage({page: page, itemNum: 12});
   }
 
   render() {
@@ -72,7 +90,8 @@ class Home extends Component {
         style={{
           height: '93vh',
           overflow: 'auto',
-          position: 'relative'
+          position: 'relative',
+          zIndex: 1
         }}
       >
         <SearchBar
@@ -112,7 +131,7 @@ class Home extends Component {
           renderItem={dataItem => (
             <div
               key={dataItem.id}
-              style={{ padding: '12.5px', zIndex: 1 }}
+              style={{ padding: '12.5px'}}
               onClick={() => this.handleClick(dataItem.id)}
             >
               <img src={dataItem.icon} style={{ width: '75px', height: '75px' }} alt='' />
@@ -132,6 +151,32 @@ class Home extends Component {
             </div>
           )}
         />
+        {
+          this.props.goods.isLoadMore ?
+            <div
+              style={{
+                textAlign: 'center',
+                height: '2.5rem',
+                lineHeight: '2.5rem',
+                fontSize: '1rem',
+                color: '#666666',
+              }}
+              onClick={this.handleLoadMore}
+            >
+              点击加载更多...
+            </div> :
+            <div
+              style={{
+                textAlign: 'center',
+                height: '2.5rem',
+                lineHeight: '2.5rem',
+                fontSize: '1rem',
+                color: '#666666',
+              }}
+            >
+              没有更多商品了o(╥﹏╥)o...
+            </div>
+        }
       </div>
     );
   }

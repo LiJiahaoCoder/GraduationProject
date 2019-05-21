@@ -19,7 +19,7 @@ class SearchGoods extends React.Component {
   }
 
   componentDidMount() {
-    const data = this.props.goodsList.map(v => (
+    const data = this.props.search.map(v => (
       {
         icon: `${GOODS_PATH}${v.images[0]}`,
         text: v.name,

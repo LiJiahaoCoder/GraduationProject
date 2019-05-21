@@ -13,6 +13,7 @@ const SEARCH = 'SEARCH';
 const GET_ORDER = 'GET_ORDER';
 const GOODS_INFO = 'GOODS_INFO';
 const CHANGE_ORDER_STATUS = 'CHANGE_ORDER_STATUS';
+const CLEAR = 'CLEAR';
 
 const initialState = {
   goodsList: [],
@@ -20,7 +21,9 @@ const initialState = {
   cart: [],
   publish: [],
   order: [],
-  goodsInfo: 'goodsList'
+  search: [],
+  goodsInfo: 'goodsList',
+  isLoadMore: true
 };
 
 // reducer
@@ -41,12 +44,14 @@ const goods = (state = initialState, action) => {
     case LOAD_BY_TYPE:
       return {...state, ...action.payload};
     case LOAD_BY_PAGE:
-      return {...state, ...action.payload};
+      return {...state, goodsList: [...state.goodsList, ...action.payload.goodsList], isLoadMore: action.payload.isLoadMore};
     case LOAD_BY_BRAND:
       return {...state, ...action.payload};
     case SEARCH:
       return {...state, ...action.payload};
     case GOODS_INFO:
+      return {...state, ...action.payload};
+    case CLEAR:
       return {...state, ...action.payload};
     case CHANGE_ORDER_STATUS:
       return {...state};
@@ -132,9 +137,9 @@ function getCart(cart) {
   }
 }
 
-function search({brand, name, page, itemNum}) {
+function search({brand, name}) {
   return dispatch => {
-    Axios.get('/goods/search', {params: {brand, name, page, itemNum}})
+    Axios.get('/goods/search', {params: {brand, name}})
       .then(res => {
         if(res.status === 200 && res.data.code === 0) {
           dispatch(searchSuccess(res.data.data));
@@ -252,6 +257,19 @@ function uploadGoods(obj) {
   }
 }
 
+function clear() {
+  return dispatch => {
+    dispatch({type: CLEAR, payload: {
+      goodsList: [],
+      favorite: [],
+      cart: [],
+      publish: [],
+      order: [],
+      search: []}
+    });
+  }
+}
+
 // action creator
 function changeOrderStatusSuccess() {
   return {type: CHANGE_ORDER_STATUS};
@@ -270,7 +288,8 @@ function getOrderSuccess(obj) {
 }
 
 function searchSuccess(obj) {
-  return {type: SEARCH, payload: {goodsList: obj}}
+  console.log(obj)
+  return {type: SEARCH, payload: {search: obj}}
 }
 
 function loadByTypeSuccess(obj) {
@@ -282,7 +301,8 @@ function loadByBrandSuccess(obj) {
 }
 
 function loadByPageSuccess(obj) {
-  return {type: LOAD_BY_PAGE, payload: {goodsList: obj}};
+  let isLoadMore = obj.length !== 0 && obj.length % 6 === 0;
+  return {type: LOAD_BY_PAGE, payload: {goodsList: obj, isLoadMore}};
 }
 
 function deletePublishSuccess(obj) {
@@ -311,5 +331,6 @@ export {
   getCart,
   search,
   setGoodsInfo,
-  changeOrderStatus
+  changeOrderStatus,
+  clear
 };

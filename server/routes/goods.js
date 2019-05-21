@@ -108,22 +108,17 @@ Router.post('/getorder', function(req, res) {
 });
 
 Router.get('/search', function(req, res) {
-  let {name, brand, page, itemNum} = req.query;
+  let {name, brand} = req.query;
   name = new RegExp(name, 'i');
   brand = new RegExp(brand, 'i');
   const option = [{name: name}, {brand: brand}];
   console.log(option)
-  Goods.find({status: '未出售', '$or': option}, filter)
-    .skip(page * itemNum)
-    .limit(Number(itemNum))
-    .sort({_id: -1})
-    .exec(function(err, doc) {
-      console.log(doc)
-      if(err)
-        return res.json({code: 1, msg: '后端出现了问题'});
-      if(doc)
-        return res.json({code: 0, data: doc});
-    });
+  Goods.find({status: '未出售', '$or': option}, filter, function(err, doc) {
+    if(err)
+      return res.json({code: 1, msg: '后端出现了问题'});
+    if(doc)
+      return res.json({code: 0, data: doc});
+  });
 });
 
 Router.get('/loadbytype', function(req, res) {
